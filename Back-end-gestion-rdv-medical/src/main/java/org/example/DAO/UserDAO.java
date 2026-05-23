@@ -294,47 +294,34 @@ public class UserDAO {
     }
 
     // LOGIN
-    public boolean login(
-            String email,
-            String password
-    ) {
+    public UsersModel login(String username) {
 
-        String sql =
-                "SELECT * FROM users WHERE email=?";
+        String sql = "SELECT * FROM users WHERE username=?";
 
-        try (
-                Connection connection =
-                        ConnectionDB.getConnection();
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-                PreparedStatement statement =
-                        connection.prepareStatement(sql)
-        ) {
+            ps.setString(1, username);
 
-            statement.setString(
-                    1,
-                    email
-            );
+            ResultSet rs = ps.executeQuery();
 
-            ResultSet result =
-                    statement.executeQuery();
+            if (rs.next()) {
 
-            if (result.next()) {
+                UsersModel user = new UsersModel();
 
-                String hashedPassword =
-                        result.getString("password");
+                user.setId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setRole(rs.getString("role"));
 
-                // VERIFY PASSWORD
-                return BCrypt.checkpw(
-                        password,
-                        hashedPassword
-                );
+                return user;
             }
 
         } catch (Exception e) {
-
             e.printStackTrace();
         }
 
-        return false;
+        return null;
     }
 }

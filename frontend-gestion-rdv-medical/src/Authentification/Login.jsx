@@ -7,12 +7,12 @@ export default function Login() {
         username:"",
         password:""
     })
-    const url = "http://localhost:8080/backend/users"
+    const url = "http://localhost:8080/backend/login"
     const handleClickLogin = async () =>{
     
         try{
             const res = await axios.post(url, login);
-            console.log(res.data.username);
+            console.log(res);
         }
         catch(err){
             console.error(err)

@@ -1,88 +1,56 @@
 package org.example.Routes;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import org.example.Controller.AuthController;
 
-import jakarta.servlet.ServletException;
-import org.example.configuration.ConnectionDB;
-
-@WebServlet("/users")
+@WebServlet("/login")
 public class LoginRoutes extends HttpServlet {
 
-    @Override
-    protected void doGet(
-            HttpServletRequest request,
-            HttpServletResponse response
-    )throws IOException {
-        response.setContentType("application/json");
-        response.getWriter().write("""
-                {
-                    "method": "GET",
-                    "message":"Liste users GET"
-                }
-                """);
-    }
+    private final AuthController controller =
+            new AuthController();
 
     @Override
     protected void doPost(
             HttpServletRequest request,
             HttpServletResponse response
-    )throws IOException {
-        BufferedReader reader = request.getReader();
+    ) throws IOException {
 
-        String body = reader.lines().reduce("", (acc, line) -> acc +line);
-        String escapedBody = body.replace("\"", "\\\"");
-        response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
 
-        response.getWriter().write("""
+        JsonObject json =
+                JsonParser.parseReader(request.getReader())
+                        .getAsJsonObject();
+
+        String username = json.get("username").getAsString();
+        String password = json.get("password").getAsString();
+
+        String token =
+                controller.login(username, password);
+
+        if (token == null) {
+
+            response.setStatus(401);
+
+            response.getWriter().write("""
+                    {"error":"Invalid credentials"}
+                    """);
+            return;
+        }
+
+        response.getWriter().write(
+                """
                 {
-                    "%s";
+                    "token":"%s"
                 }
-                """.formatted(body));
+                """.formatted(token)
+        );
     }
-
-    @Override
-    protected void doPut(
-            HttpServletRequest request,
-            HttpServletResponse response
-    )throws IOException {
-        BufferedReader reader = request.getReader();
-
-        String body = reader.lines().reduce("", (acc, line) -> acc +line);
-
-        response.setContentType("application/json");
-        response.getWriter().write("""
-                {  
-                    "method": "PUT",
-                    "body":"%s (PUT)"
-                }
-                """.formatted(body));
-    }
-
-
-    @Override
-    protected void doDelete(
-            HttpServletRequest request,
-            HttpServletResponse response
-    )throws IOException {
-        BufferedReader reader = request.getReader();
-
-        String body = reader.lines().reduce("", (acc, line) -> acc +line);
-
-        response.setContentType("application/json");
-        response.getWriter().write("""
-                {
-                    "method": "DELETE",
-                    "body":"%s (delete)"
-                }
-                """.formatted(body));
-    }
-
 }
