@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 export default function PatientDashboard({ userId }){
-    const url = "http://localhost:8080/backend/patient";
+    const url = "http://localhost:8080/backend/api/patient";
     useEffect(()=>{
 
     }, []);

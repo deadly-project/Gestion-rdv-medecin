@@ -81,6 +81,42 @@ public class UserDAO {
         return -1;
     }
 
+    //verification si l'utilisateur existe déjà
+    public boolean usernameExists(
+            String username
+    ) {
+
+        String sql =
+                "SELECT id FROM users WHERE username=?";
+
+        try (
+
+                Connection connection =
+                        ConnectionDB.getConnection();
+
+                PreparedStatement statement =
+                        connection.prepareStatement(sql)
+
+        ) {
+
+            statement.setString(
+                    1,
+                    username
+            );
+
+            ResultSet result =
+                    statement.executeQuery();
+
+            return result.next();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     // READ ALL
     public List<UsersModel> getAllUsers() {
 
