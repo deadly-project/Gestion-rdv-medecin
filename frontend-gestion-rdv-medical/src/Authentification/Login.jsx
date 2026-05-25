@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {Link, useNavigate} from "react-router-dom"
 
 export default function Login() {
@@ -10,6 +10,9 @@ export default function Login() {
     });
     const [alert, setAlert] = useState("");
     const url = "http://localhost:8080/backend/login"
+    // useEffect(() =>{
+    //     localStorage.clear();
+    // }, [])
     const handleClickLogin = async () =>{
     
         try{

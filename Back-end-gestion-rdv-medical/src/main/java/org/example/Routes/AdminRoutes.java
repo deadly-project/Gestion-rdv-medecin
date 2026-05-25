@@ -16,6 +16,7 @@ public class AdminRoutes extends HttpServlet {
             HttpServletResponse response
     ) throws IOException {
 
+        System.out.println("ADMIN ROUTE");
         response.setContentType("application/json");
 
         response.getWriter().write("""

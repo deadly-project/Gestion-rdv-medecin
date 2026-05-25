@@ -1,5 +1,6 @@
 package org.example.Controller;
 
+import com.google.gson.JsonObject;
 import org.example.DAO.*;
 import org.example.Models.*;
 
@@ -14,13 +15,36 @@ public class UsersController {
     private final MedecinDAO medecinDAO =
             new MedecinDAO();
 
-    public void createUser(
+    public JsonObject createUser(
 
             UsersModel user,
             PatientsModels patient,
             MedecinModels medecin
 
     ) {
+
+        JsonObject response =
+                new JsonObject();
+
+        // VERIFY USERNAME
+        if (
+                userDAO.usernameExists(
+                        user.getUsername()
+                )
+        ) {
+
+            response.addProperty(
+                    "success",
+                    false
+            );
+
+            response.addProperty(
+                    "message",
+                    "Username déjà utilisé"
+            );
+
+            return response;
+        }
 
         // CLIENT
         if (
@@ -50,7 +74,17 @@ public class UsersController {
 
         if (userId == -1) {
 
-            return;
+            response.addProperty(
+                    "success",
+                    false
+            );
+
+            response.addProperty(
+                    "message",
+                    "Erreur lors de la création"
+            );
+
+            return response;
         }
 
         // SAVE PATIENT
@@ -74,5 +108,32 @@ public class UsersController {
 
             medecinDAO.createMedecin(medecin);
         }
+
+        response.addProperty(
+                "success",
+                true
+        );
+
+        response.addProperty(
+                "message",
+                "Compte créé avec succès"
+        );
+
+        return response;
     }
+
+    public boolean usernameExists(
+            String username
+    ) {
+
+        return userDAO.usernameExists(
+                username
+        );
+    }
+
+    public UsersModel getProfile(int id) {
+
+        return userDAO.getProfile(id);
+    }
+
 }

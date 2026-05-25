@@ -17,7 +17,7 @@ import org.example.Models.MedecinModels;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet("/register")
+@WebServlet("/register/*")
 public class RegisterRoutes extends HttpServlet {
 
     private final UsersController controller =
@@ -169,7 +169,7 @@ public class RegisterRoutes extends HttpServlet {
             }
 
             // ENREGISTREMENT
-            controller.createUser(
+            JsonObject result =  controller.createUser(
                     user,
                     patient,
                     medecin
@@ -177,12 +177,9 @@ public class RegisterRoutes extends HttpServlet {
 
             response.setStatus(201);
 
-            response.getWriter().write("""
-                    {
-                        "success": true,
-                        "message": "Utilisateur créé avec succès"
-                    }
-                    """);
+            response.getWriter().write(
+                    result.toString()
+            );
 
         } catch (Exception e) {
 
@@ -196,6 +193,113 @@ public class RegisterRoutes extends HttpServlet {
                         "message": "Erreur serveur"
                     }
                     """);
+        }
+    }
+
+    protected void doGet(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException{
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+
+        response.setContentType(
+                "application/json"
+        );
+
+        response.setCharacterEncoding(
+                "UTF-8"
+        );
+
+        JsonObject json =
+                new JsonObject();
+
+        try {
+
+            // URL
+            // /register/johan
+
+            String path =
+                    request.getPathInfo();
+
+            if (
+                    path == null ||
+                            path.equals("/")
+            ) {
+
+                json.addProperty(
+                        "available",
+                        false
+                );
+
+                json.addProperty(
+                        "message",
+                        "Username manquant"
+                );
+
+                response.getWriter().write(
+                        json.toString()
+                );
+
+                return;
+            }
+
+            // REMOVE "/"
+            String username =
+                    path.substring(1);
+
+            boolean exists =
+                    controller.usernameExists(
+                            username
+                    );
+
+            // USERNAME EXISTE
+            if (exists) {
+
+                json.addProperty(
+                        "available",
+                        false
+                );
+
+                json.addProperty(
+                        "message",
+                        "Username déjà utilisé"
+                );
+
+            } else {
+
+                json.addProperty(
+                        "available",
+                        true
+                );
+
+                json.addProperty(
+                        "message",
+                        "Username disponible"
+                );
+            }
+
+            response.getWriter().write(
+                    json.toString()
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            json.addProperty(
+                    "available",
+                    false
+            );
+
+            json.addProperty(
+                    "message",
+                    "Erreur serveur"
+            );
+
+            response.getWriter().write(
+                    json.toString()
+            );
         }
     }
 }

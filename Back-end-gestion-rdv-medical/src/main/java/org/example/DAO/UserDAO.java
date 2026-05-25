@@ -361,4 +361,59 @@ public class UserDAO {
 
         return null;
     }
+
+    public UsersModel getProfile(int id) {
+
+        String sql =
+                "SELECT id, username, email, role, user_status " +
+                        "FROM users WHERE id=?";
+
+        try (
+                Connection connection =
+                        ConnectionDB.getConnection();
+
+                PreparedStatement statement =
+                        connection.prepareStatement(sql)
+        ) {
+
+            statement.setInt(1, id);
+
+            ResultSet result =
+                    statement.executeQuery();
+
+            if (result.next()) {
+
+                UsersModel user =
+                        new UsersModel();
+
+                user.setId(
+                        result.getInt("id")
+                );
+
+                user.setUsername(
+                        result.getString("username")
+                );
+
+                user.setEmail(
+                        result.getString("email")
+                );
+
+                user.setRole(
+                        result.getString("role")
+                );
+
+                user.setUser_status(
+                        result.getString("user_status")
+                );
+
+                return user;
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

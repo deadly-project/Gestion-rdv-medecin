@@ -36,26 +36,26 @@ export default function Register() {
   const url = 'http://localhost:8080/backend/';
 
   // Code de vérification d'username (laissé tel quel)
-  // useEffect(() => {
-  //     if(!userinfo.username) return;
+  useEffect(() => {
+      if(!userinfo.username) return;
 
-  //     if(userinfo.username.length <= 2 ){
-  //         setAlert(prev=>({...prev, alertUsername:"L'username doit être plus de 2 caractère !"}))
-  //     }else{
-  //         setAlert(prev => ({...prev, alertUsername:"Verification ..."}))
-  //         const verificationUsername = setTimeout(async () => 
-  //             {
-  //                 try{
-  //                         const res = await axios.post(`${url}/verify`, {username:userinfo.username});
-  //                         console.log(res.data.available)
-  //                         setAlert(prev => ({...prev, resultatUsername:res.data.available, alertUsername:res.data.message}))
-  //                 }catch(error){
-  //                     console.log(error);
-  //                 }
-  //             }, 1000)
-  //             return ()=> clearTimeout(verificationUsername);
-  //     }
-  // }, [userinfo.username]);
+      if(userinfo.username.length <= 2 ){
+          setAlert(prev=>({...prev, alertUsername:"L'username doit être plus de 2 caractère !"}))
+      }else{
+          setAlert(prev => ({...prev, alertUsername:"Verification ..."}))
+          const verificationUsername = setTimeout(async () => 
+              {
+                  try{
+                          const res = await axios.get(`${url}/register/${userinfo.username}`);
+                          console.log(res.data.available)
+                          setAlert(prev => ({...prev, resultatUsername:res.data.available, alertUsername:res.data.message}))
+                  }catch(error){
+                      console.log(error);
+                  }
+              }, 1000)
+              return ()=> clearTimeout(verificationUsername);
+      }
+  }, [userinfo.username]);
 
   const handleClickSee = (valeur, set) => {
     (valeur === "password") ? set("text") : set("password");
