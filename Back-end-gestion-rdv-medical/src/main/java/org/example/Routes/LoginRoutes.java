@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+
 import org.example.Controller.AuthController;
 
 @WebServlet("/login")
@@ -24,33 +25,38 @@ public class LoginRoutes extends HttpServlet {
     ) throws IOException {
 
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         JsonObject json =
-                JsonParser.parseReader(request.getReader())
-                        .getAsJsonObject();
+                JsonParser.parseReader(
+                        request.getReader()
+                ).getAsJsonObject();
 
-        String username = json.get("username").getAsString();
-        String password = json.get("password").getAsString();
+        String username =
+                json.get("username")
+                        .getAsString();
 
-        String token =
-                controller.login(username, password);
+        String password =
+                json.get("password")
+                        .getAsString();
 
-        if (token == null) {
+        JsonObject result =
+                controller.login(
+                        username,
+                        password
+                );
 
-            response.setStatus(401);
+        // LOGIN FAILED
+        if (
+                !result.get("success")
+                        .getAsBoolean()
+        ) {
 
-            response.getWriter().write("""
-                    {"error":"Invalid credentials"}
-                    """);
-            return;
+            response.setStatus(200);
         }
 
         response.getWriter().write(
-                """
-                {
-                    "token":"%s"
-                }
-                """.formatted(token)
+                result.toString()
         );
     }
 }

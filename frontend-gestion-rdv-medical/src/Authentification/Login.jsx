@@ -1,21 +1,33 @@
 import axios from "axios";
 import { useState } from "react";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 
 export default function Login() {
+    const navigate = useNavigate();
     const [login, setLogin] = useState({
         username:"",
         password:""
-    })
+    });
+    const [alert, setAlert] = useState("");
     const url = "http://localhost:8080/backend/login"
     const handleClickLogin = async () =>{
     
         try{
             const res = await axios.post(url, login);
-            console.log(res);
+            if(res.data.success){
+                const id = res.data.id;
+                const role = res.data.role;
+                console.log("role" + role + ", id" + id);
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("id", id);
+                localStorage.setItem("role", role);
+                navigate(`/dashboard/${role}/${id}`);
+            }else{
+                setAlert(res.data.message);
+            }
         }
         catch(err){
-            console.error(err)
+            console.error(err);
         }
     }
     return(
@@ -27,6 +39,8 @@ export default function Login() {
                 <input type="Password" onChange={e=>{setLogin({...login, password:e.target.value})}} />
                 <button onClick={handleClickLogin}>Se connecter</button>
                 <Link to="/register">S'inscrire</Link>
+                {alert && <div>{alert}</div>}
+                
         </div>
     )
 }

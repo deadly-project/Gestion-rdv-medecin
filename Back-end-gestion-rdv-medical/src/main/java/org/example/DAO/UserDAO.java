@@ -314,6 +314,7 @@ public class UserDAO {
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
+                user.setUser_status(rs.getString("user_status"));
 
                 return user;
             }
