@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Profile from "../Common/Profil";
 
 export default function PatientDashboard({ userId }){
     const urlProfile = "http://localhost:8080/backend/api/profile";
@@ -33,7 +34,7 @@ export default function PatientDashboard({ userId }){
     }, []);
     return(
         <div>
-            Patient
+            { profile ? <Profile info={profile}/> :<p>Chargement du profile</p> }
         </div>
     )
 }

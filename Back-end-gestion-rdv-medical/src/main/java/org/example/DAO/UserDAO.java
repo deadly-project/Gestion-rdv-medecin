@@ -124,7 +124,7 @@ public class UserDAO {
                 new ArrayList<>();
 
         String sql =
-                "SELECT * FROM users";
+                "SELECT id, username, email, role, user_status FROM users ";
 
         try (
                 Connection connection =
@@ -148,10 +148,6 @@ public class UserDAO {
 
                 user.setUsername(
                         result.getString("username")
-                );
-
-                user.setPassword(
-                        result.getString("password")
                 );
 
                 user.setEmail(

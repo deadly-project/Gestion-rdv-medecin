@@ -2,7 +2,10 @@ package org.example.Controller;
 
 import com.google.gson.JsonObject;
 import org.example.DAO.*;
+import org.example.DTO.MedecinAdminDTO;
 import org.example.Models.*;
+
+import java.util.List;
 
 public class UsersController {
 
@@ -14,6 +17,7 @@ public class UsersController {
 
     private final MedecinDAO medecinDAO =
             new MedecinDAO();
+
 
     public JsonObject createUser(
 
@@ -136,4 +140,11 @@ public class UsersController {
         return userDAO.getProfile(id);
     }
 
+    public List<UsersModel> getAllUser(){
+        return userDAO.getAllUsers();
+    }
+
+    public List<MedecinAdminDTO> getAllMedecinsForAdmin(){
+        return medecinDAO.getAllMedecinsForAdmin();
+    }
 }

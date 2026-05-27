@@ -1,28 +1,38 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import Profile from "../Common/Profil";
+import ListUsers from "./ListUser";
+import NavAdmin from "./NavAdmin";
 
 export default function AdminDashboard({ userId }){
     const urlProfile = "http://localhost:8080/backend/api/profile";
+    const urlUsers = "http://localhost:8080/backend/api/admin";
     const token = localStorage.getItem("token");
     const [profile, setProfile] = useState(null);
+    const [users, setUsers] = useState([]);
     useEffect(() =>{
         const fetchProfile = async () => {
 
             try {
-                console.log("Token envoyé" + token);
-                const res = await axios.get(
-                    urlProfile,
-                    {
-                        headers: {
+                const headers = {
                             Authorization: `Bearer ${token}`
-                        }
-                    }
+                        };
+                const [profileRes, usersRes] = await Promise.all([
+                    axios.get(
+                        urlProfile,
+                        { headers }
+                    ),
+                    axios.get(
+                        urlUsers,
+                        { headers }
+                    )
+                ]
                 );
 
-                console.log(res.data);
 
-                setProfile(res.data);
 
+                setProfile(profileRes.data);
+                setUsers(usersRes.data);
             } catch(err) {
 
                 console.log(err);
@@ -33,7 +43,9 @@ export default function AdminDashboard({ userId }){
     }, []);
     return(
         <div>
-            Admin
+            <NavAdmin userId={userId} />
+            { profile ? <Profile info={profile}/> :<p>Chargement du profile</p> }
+            { users.length > 0 ? <ListUsers Users={users}/> :<p>Chargement des utilisateur</p> }
         </div>
     )
 }

@@ -5,6 +5,8 @@ import Login from './Authentification/Login.jsx'
 import Register from './Authentification/Register.jsx'
 import Dashboard from './Components/Dashboard.jsx';
 import ProtectedRoute from './Configuration/ProtectedRoute.jsx';
+import ListMedecins from './Components/Administrateur/ListMedecins.jsx';
+import ListPatients from './Components/Administrateur/ListPatients.jsx';
 function App() {
 
   return (
@@ -17,6 +19,26 @@ function App() {
             <Dashboard/>
           </ProtectedRoute>
           }/>
+          {/* Routes réservées UNIQUEMENT à l'admin */}
+        <Route path="/ListMedecins/:role/:id" element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <ListMedecins/>
+          </ProtectedRoute>
+        }/>
+        
+        <Route path="/ListPatients/:role/:id" element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <ListPatients/>
+          </ProtectedRoute>
+        }/>
+
+        {/* Exemple de routes pour les autres rôles à ajouter plus tard :
+        <Route path="/prendre-rdv/:id" element={
+          <ProtectedRoute allowedRoles={['patient']}>
+            <PrendreRdv />
+          </ProtectedRoute>
+        }/> 
+        */}
       </Routes>
     </BrowserRouter>
   )
