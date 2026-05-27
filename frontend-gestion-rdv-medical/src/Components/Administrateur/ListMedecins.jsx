@@ -37,6 +37,37 @@ export default function ListMedecins(){
         navigate(`/UpdateMedecin/admin/${id}`)
     };
 
+    const deleteMedecin = async (id) => {
+        try {
+
+            await axios.delete(
+                `http://localhost:8080/backend/api/admin/medecins?id=${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            setMedecins(
+                medecins.filter(
+                    med => med.id !== id
+                )
+            );
+
+        } catch(err) {
+
+            console.log(err);
+        }
+    };
+
+    const handleClickDelete = async (id) =>{
+        const boutonConfirme = window.confirm("Êtes-vous sûr de vouloir supprimer ce médecin ?");
+        if (boutonConfirme) {
+            deleteMedecin(id);
+        }
+    
+    }
 
     return(
         <div>
@@ -75,8 +106,12 @@ export default function ListMedecins(){
                                 <td>
                                     <BsPencilSquare onClick={() =>{
                                         updateMedecin(med.id)
-                                    }}></BsPencilSquare>
-                                    <BsFillTrash3Fill></BsFillTrash3Fill>
+                                    }}/>
+
+                                    <BsFillTrash3Fill onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleClickDelete(med.id)
+                                        }}/>
                                 </td>                        
                             </tr>
                         ))
