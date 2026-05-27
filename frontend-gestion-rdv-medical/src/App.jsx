@@ -7,6 +7,7 @@ import Dashboard from './Components/Dashboard.jsx';
 import ProtectedRoute from './Configuration/ProtectedRoute.jsx';
 import ListMedecins from './Components/Administrateur/ListMedecins.jsx';
 import ListPatients from './Components/Administrateur/ListPatients.jsx';
+import UpdateMedecin from './Components/Administrateur/UpdateMedecin.jsx';
 function App() {
 
   return (
@@ -31,6 +32,14 @@ function App() {
             <ListPatients/>
           </ProtectedRoute>
         }/>
+
+
+        <Route path="/UpdateMedecin/:role/:id" element={
+          <ProtectedRoute allowedRoles={['admin', 'medecin']}>
+            <UpdateMedecin/>
+          </ProtectedRoute>
+        }/>
+
 
         {/* Exemple de routes pour les autres rôles à ajouter plus tard :
         <Route path="/prendre-rdv/:id" element={

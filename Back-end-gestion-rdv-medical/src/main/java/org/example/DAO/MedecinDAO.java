@@ -127,7 +127,7 @@ public class MedecinDAO {
         return medecins;
     }
 
-    // UPDATE MEDECIN
+    //UPDATE MEDECIN
     public boolean updateMedecinForAdmin(
             MedecinAdminDTO medecin
     ) {
@@ -137,7 +137,6 @@ public class MedecinDAO {
         SET
             username = ?,
             email = ?,
-            role = ?,
             user_status = ?
         WHERE id = ?
     """;
@@ -161,32 +160,31 @@ public class MedecinDAO {
 
             // UPDATE USERS
             try (
-                    PreparedStatement psUsers =
+                    PreparedStatement stmtUsers =
                             connection.prepareStatement(sqlUsers)
             ) {
 
-                psUsers.setString(1, medecin.getUsername());
-                psUsers.setString(2, medecin.getEmail());
-                psUsers.setString(3, medecin.getRole());
-                psUsers.setString(4, medecin.getUser_status());
-                psUsers.setInt(5, medecin.getId());
+                stmtUsers.setString(1, medecin.getUsername());
+                stmtUsers.setString(2, medecin.getEmail());
+                stmtUsers.setString(3, medecin.getUser_status());
+                stmtUsers.setInt(4, medecin.getId());
 
-                psUsers.executeUpdate();
+                stmtUsers.executeUpdate();
             }
 
-            // UPDATE MEDECINS
+            // UPDATE MEDECIN
             try (
-                    PreparedStatement psMed =
+                    PreparedStatement stmtMed =
                             connection.prepareStatement(sqlMedecin)
             ) {
 
-                psMed.setString(1, medecin.getNom_med());
-                psMed.setString(2, medecin.getSpecialite());
-                psMed.setInt(3, medecin.getTaux_horaire());
-                psMed.setString(4, medecin.getLieu());
-                psMed.setInt(5, medecin.getId());
+                stmtMed.setString(1, medecin.getNom_med());
+                stmtMed.setString(2, medecin.getSpecialite());
+                stmtMed.setInt(3, medecin.getTaux_horaire());
+                stmtMed.setString(4, medecin.getLieu());
+                stmtMed.setInt(5, medecin.getId());
 
-                psMed.executeUpdate();
+                stmtMed.executeUpdate();
             }
 
             connection.commit();
@@ -200,7 +198,6 @@ public class MedecinDAO {
 
         return false;
     }
-
     // DELETE MEDECIN
     public boolean deleteMedecinForAdmin(
             int id
@@ -230,5 +227,71 @@ public class MedecinDAO {
         }
 
         return false;
+    }
+
+    // GET MEDECIN BY ID
+    public MedecinAdminDTO getMedecinByIdForAdmin(
+            int id
+    ) {
+
+        String sql = """
+        SELECT
+            u.id,
+            u.username,
+            u.email,
+            u.role,
+            u.user_status,
+
+            m.nom_med,
+            m.specialite,
+            m.taux_horaire,
+            m.lieu
+
+        FROM users u
+
+        INNER JOIN medecins m
+        ON u.id = m.id_user
+
+        WHERE u.id = ?
+    """;
+
+        try (
+                Connection connection =
+                        ConnectionDB.getConnection();
+
+                PreparedStatement statement =
+                        connection.prepareStatement(sql)
+        ) {
+
+            statement.setInt(1, id);
+
+            ResultSet result =
+                    statement.executeQuery();
+
+            if (result.next()) {
+
+                MedecinAdminDTO med =
+                        new MedecinAdminDTO();
+
+                med.setId(result.getInt("id"));
+                med.setUsername(result.getString("username"));
+                med.setEmail(result.getString("email"));
+                med.setRole(result.getString("role"));
+                med.setUser_status(result.getString("user_status"));
+
+                med.setNom_med(result.getString("nom_med"));
+                med.setSpecialite(result.getString("specialite"));
+                med.setTaux_horaire(result.getInt("taux_horaire"));
+                med.setLieu(result.getString("lieu"));
+
+                return med;
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

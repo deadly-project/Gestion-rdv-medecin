@@ -35,7 +35,40 @@ public class AdminMedecinRoutes
         response.setContentType(
                 "application/json"
         );
+        String idParam =
+                request.getParameter("id");
 
+// GET BY ID
+        if (idParam != null) {
+
+            int id =
+                    Integer.parseInt(idParam);
+
+            MedecinAdminDTO med =
+                    controller.getMedecinByIdForAdmin(id);
+
+            if (med == null) {
+
+                response.setStatus(404);
+
+                response.getWriter().write("""
+            {
+                "success": false,
+                "message": "Médecin introuvable"
+            }
+        """);
+
+                return;
+            }
+
+            response.getWriter().write(
+                    gson.toJson(med)
+            );
+
+            return;
+        }
+
+// GET ALL
         List<MedecinAdminDTO> medecins =
                 controller.getAllMedecinsForAdmin();
 

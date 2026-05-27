@@ -31,4 +31,13 @@ public class MedecinController {
         return medecinDAO
                 .deleteMedecinForAdmin(id);
     }
+
+    //RECHERCHE PAR ID
+    public MedecinAdminDTO getMedecinByIdForAdmin(
+            int id
+    ) {
+
+        return medecinDAO
+                .getMedecinByIdForAdmin(id);
+    }
 }

@@ -3,7 +3,9 @@ import { BsPencilSquare } from "react-icons/bs";
 import { BsFillTrash3Fill } from "react-icons/bs";
 import NavAdmin from "./NavAdmin";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function ListMedecins(){
+    const navigate = useNavigate();
     const [medecins, setMedecins] = useState([]);
     const userId = localStorage.getItem("id");
     const token = localStorage.getItem("token");
@@ -11,9 +13,7 @@ export default function ListMedecins(){
     useEffect(() => {
 
     const fetchMedecins = async () => {
-
         try {
-
             const res = await axios.get(
                 "http://localhost:8080/backend/api/admin/medecins",
                 {
@@ -22,7 +22,6 @@ export default function ListMedecins(){
                     }
                 }
             );
-
             setMedecins(res.data);
 
         } catch(err) {
@@ -30,10 +29,15 @@ export default function ListMedecins(){
             console.log(err);
         }
     };
-
     fetchMedecins();
 
-}, []);
+    }, []);
+
+    const updateMedecin = async (id) => {
+        navigate(`/UpdateMedecin/admin/${id}`)
+    };
+
+
     return(
         <div>
             <NavAdmin userId={userId} />
@@ -69,9 +73,11 @@ export default function ListMedecins(){
                                 <td>{med.user_status}</td>
 
                                 <td>
-
-                                </td>
-                        
+                                    <BsPencilSquare onClick={() =>{
+                                        updateMedecin(med.id)
+                                    }}></BsPencilSquare>
+                                    <BsFillTrash3Fill></BsFillTrash3Fill>
+                                </td>                        
                             </tr>
                         ))
                     }
