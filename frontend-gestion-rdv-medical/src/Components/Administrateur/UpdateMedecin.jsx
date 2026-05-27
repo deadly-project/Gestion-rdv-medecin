@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import NavAdmin from "./NavAdmin";
+import NavMedecin from "../Medecin/NavMedecin";
 export default function UpdateMedecin() {
     const {role, id} = useParams();
+    const idUserConnected = localStorage.getItem("id");
     const token = localStorage.getItem("token");
     const userRoleConnected = localStorage.getItem("role");
 
@@ -148,7 +150,12 @@ export default function UpdateMedecin() {
 
     return (
         <div>
-            <NavAdmin/>
+            {
+                role == "admin" ? 
+                <NavAdmin userId={idUserConnected}/>
+                :
+                <NavMedecin userId={id}/>
+            }
             <div className="formulaire-update-medecin">
 
                 <h2>Mise à jour du compte</h2>

@@ -40,14 +40,7 @@ function App() {
           </ProtectedRoute>
         }/>
 
-
-        {/* Exemple de routes pour les autres rôles à ajouter plus tard :
-        <Route path="/prendre-rdv/:id" element={
-          <ProtectedRoute allowedRoles={['patient']}>
-            <PrendreRdv />
-          </ProtectedRoute>
-        }/> 
-        */}
+        
       </Routes>
     </BrowserRouter>
   )

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Profile from "../Common/Profil";
+import NavMedecin from "./NavMedecin";
 
 export default function MedecinDashboard({ userId }){const urlProfile = "http://localhost:8080/backend/api/profile";
     const token = localStorage.getItem("token");
@@ -33,6 +34,7 @@ export default function MedecinDashboard({ userId }){const urlProfile = "http://
     }, []);
     return(
         <div>
+            <NavMedecin userId={userId}/>
             { profile ? <Profile info={profile}/> :<p>Chargement du profile</p> }
         </div>
     )
