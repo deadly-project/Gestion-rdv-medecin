@@ -12,7 +12,6 @@ function ProtectedRoute({ children, allowedRoles }) {
         const id = localStorage.getItem("id");
         return <Navigate to={`/dashboard/${userRole}/${id}`} />;
     }
-
     return children;
 
 }

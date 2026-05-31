@@ -5,7 +5,7 @@ import { IoIosPersonAdd } from "react-icons/io";
 
 export default function NavPatients({ userId }) {
     const navigate = useNavigate();
-    const role = localStorage.getItem("role")
+    const role = localStorage.getItem("role");
     const logout = () => {
         localStorage.clear();
         navigate("/");
@@ -15,7 +15,7 @@ export default function NavPatients({ userId }) {
         <nav className="navbar">
             <Link to={`/dashboard/${role}/${userId}`}><IoHomeOutline /> Dashboard  </Link>
             <Link to={`/UpdatePatient/${role}/${userId}`}><IoIosPersonAdd /> Modification du profils  </Link>
-            <Link to={`/ListPatients/${role}/${userId}`}><IoIosPersonAdd /> Gérer Rdv</Link>
+            <Link to={`/ListRdv/${role}/${userId}`}><IoIosPersonAdd /> Gérer Rdv</Link>
             <FiLogOut onClick={logout} style={{ cursor: "pointer" }} />
         </nav>
     );

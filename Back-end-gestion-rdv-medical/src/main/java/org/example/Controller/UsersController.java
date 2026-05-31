@@ -12,11 +12,11 @@ public class UsersController {
     private final UserDAO userDAO =
             new UserDAO();
 
-    private final PatientDAO patientDAO =
-            new PatientDAO();
+    private final PatientForAdminDAO patientForAdminDAO =
+            new PatientForAdminDAO();
 
-    private final MedecinDAO medecinDAO =
-            new MedecinDAO();
+    private final MedecinForAdminDAO medecinForAdminDAO =
+            new MedecinForAdminDAO();
 
 
     public JsonObject createUser(
@@ -99,7 +99,7 @@ public class UsersController {
 
             patient.setId_user(userId);
 
-            patientDAO.createPatient(patient);
+            patientForAdminDAO.createPatient(patient);
         }
 
         // SAVE MEDECIN
@@ -110,7 +110,7 @@ public class UsersController {
 
             medecin.setId_user(userId);
 
-            medecinDAO.createMedecin(medecin);
+            medecinForAdminDAO.createMedecin(medecin);
         }
 
         response.addProperty(
@@ -145,6 +145,6 @@ public class UsersController {
     }
 
     public List<MedecinAdminDTO> getAllMedecinsForAdmin(){
-        return medecinDAO.getAllMedecinsForAdmin();
+        return medecinForAdminDAO.getAllMedecinsForAdmin();
     }
 }

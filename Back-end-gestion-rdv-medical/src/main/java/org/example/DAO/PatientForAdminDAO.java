@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientDAO {
+public class PatientForAdminDAO {
 
     public void createPatient(
             PatientsModels patient

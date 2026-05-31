@@ -1,18 +1,18 @@
 package org.example.Controller;
 
-import org.example.DAO.PatientDAO;
+import org.example.DAO.PatientForAdminDAO;
 import org.example.DTO.PatientAdminDTO;
 
 import java.util.List;
 
 public class PatientControllerForAdmin {
 
-    private final PatientDAO patientDAO =
-            new PatientDAO();
+    private final PatientForAdminDAO patientForAdminDAO =
+            new PatientForAdminDAO();
 
     public List<PatientAdminDTO> getAllPatientsForAdmin() {
 
-        return patientDAO
+        return patientForAdminDAO
                 .getAllPatientsForAdmin();
     }
 
@@ -20,7 +20,7 @@ public class PatientControllerForAdmin {
             int id
     ) {
 
-        return patientDAO
+        return patientForAdminDAO
                 .getPatientByIdForAdmin(id);
     }
 
@@ -28,7 +28,7 @@ public class PatientControllerForAdmin {
             PatientAdminDTO patient
     ) {
 
-        return patientDAO
+        return patientForAdminDAO
                 .updatePatientForAdmin(patient);
     }
 
@@ -36,7 +36,7 @@ public class PatientControllerForAdmin {
             int id
     ) {
 
-        return patientDAO
+        return patientForAdminDAO
                 .deletePatientForAdmin(id);
     }
 }
