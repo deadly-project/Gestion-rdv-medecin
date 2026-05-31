@@ -5,7 +5,7 @@ import org.example.DAO.MedecinDAO;
 
 import java.util.List;
 
-public class MedecinController {
+public class MedecinControllerForAdmin {
 
     private final MedecinDAO medecinDAO = new MedecinDAO();
     // GET LIST

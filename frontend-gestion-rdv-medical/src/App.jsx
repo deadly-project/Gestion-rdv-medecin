@@ -8,6 +8,7 @@ import ProtectedRoute from './Configuration/ProtectedRoute.jsx';
 import ListMedecins from './Components/Administrateur/ListMedecins.jsx';
 import ListPatients from './Components/Administrateur/ListPatients.jsx';
 import UpdateMedecin from './Components/Administrateur/UpdateMedecin.jsx';
+import UpdatePatient from './Components/Administrateur/UpdatePatient.jsx';
 function App() {
 
   return (
@@ -33,14 +34,18 @@ function App() {
           </ProtectedRoute>
         }/>
 
-
         <Route path="/UpdateMedecin/:role/:id" element={
           <ProtectedRoute allowedRoles={['admin', 'medecin']}>
             <UpdateMedecin/>
           </ProtectedRoute>
         }/>
 
-        
+        <Route path="/UpdatePatient/:role/:id" element={
+          <ProtectedRoute allowedRoles={['admin', 'client']}>
+            <UpdatePatient/>
+          </ProtectedRoute>
+        }/>
+
       </Routes>
     </BrowserRouter>
   )

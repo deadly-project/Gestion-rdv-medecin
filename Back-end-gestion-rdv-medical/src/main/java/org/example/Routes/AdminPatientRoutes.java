@@ -9,23 +9,23 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.example.Controller.MedecinControllerForAdmin;
-import org.example.DTO.MedecinAdminDTO;
+import org.example.Controller.PatientControllerForAdmin;
+import org.example.DTO.PatientAdminDTO;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/api/admin/medecins")
-public class AdminMedecinRoutes
+@WebServlet("/api/admin/patients")
+public class AdminPatientRoutes
         extends HttpServlet {
 
     private final Gson gson =
             new Gson();
 
-    private final MedecinControllerForAdmin controller =
-            new MedecinControllerForAdmin();
+    private final PatientControllerForAdmin controller =
+            new PatientControllerForAdmin();
 
-    // GET LIST
+    // GET
     @Override
     protected void doGet(
             HttpServletRequest request,
@@ -35,45 +35,48 @@ public class AdminMedecinRoutes
         response.setContentType(
                 "application/json"
         );
+
         String idParam =
                 request.getParameter("id");
 
-// GET BY ID
-        if (idParam != null) {
+        // GET BY ID
+        if(idParam != null) {
 
             int id =
                     Integer.parseInt(idParam);
 
-            MedecinAdminDTO med =
-                    controller.getMedecinByIdForAdmin(id);
+            PatientAdminDTO patient =
+                    controller
+                            .getPatientByIdForAdmin(id);
 
-            if (med == null) {
+            if(patient == null) {
 
                 response.setStatus(404);
 
                 response.getWriter().write("""
-            {
-                "success": false,
-                "message": "Médecin introuvable"
-            }
-        """);
+                    {
+                        "success":false,
+                        "message":"Patient introuvable"
+                    }
+                """);
 
                 return;
             }
 
             response.getWriter().write(
-                    gson.toJson(med)
+                    gson.toJson(patient)
             );
 
             return;
         }
 
-// GET ALL
-        List<MedecinAdminDTO> medecins =
-                controller.getAllMedecinsForAdmin();
+        // GET ALL
+        List<PatientAdminDTO> patients =
+                controller
+                        .getAllPatientsForAdmin();
 
         response.getWriter().write(
-                gson.toJson(medecins)
+                gson.toJson(patients)
         );
     }
 
@@ -88,20 +91,17 @@ public class AdminMedecinRoutes
                 "application/json"
         );
 
-        JsonObject json =
-                JsonParser.parseReader(
-                        request.getReader()
-                ).getAsJsonObject();
-
-        MedecinAdminDTO med =
+        PatientAdminDTO patient =
                 gson.fromJson(
-                        json,
-                        MedecinAdminDTO.class
+                        JsonParser.parseReader(
+                                request.getReader()
+                        ),
+                        PatientAdminDTO.class
                 );
 
         boolean success =
                 controller
-                        .updateMedecinForAdmin(med);
+                        .updatePatientForAdmin(patient);
 
         JsonObject result =
                 new JsonObject();
@@ -114,7 +114,7 @@ public class AdminMedecinRoutes
         result.addProperty(
                 "message",
                 success
-                        ? "Médecin modifié"
+                        ? "Patient modifié"
                         : "Erreur modification"
         );
 
@@ -141,7 +141,7 @@ public class AdminMedecinRoutes
 
         boolean success =
                 controller
-                        .deleteMedecinForAdmin(id);
+                        .deletePatientForAdmin(id);
 
         JsonObject result =
                 new JsonObject();
@@ -154,7 +154,7 @@ public class AdminMedecinRoutes
         result.addProperty(
                 "message",
                 success
-                        ? "Médecin supprimé"
+                        ? "Patient supprimé"
                         : "Erreur suppression"
         );
 

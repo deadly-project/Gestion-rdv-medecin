@@ -14,11 +14,8 @@ export default function NavMedecin({ userId }) {
     return (
         <nav className="navbar">
             <Link to={`/dashboard/${role}/${userId}`}><IoHomeOutline /> Dashboard</Link>
-            {" | "}
-            <Link to={`/UpdateMedecin/medecin/${userId}`}><IoIosPersonAdd /> Modification du profils </Link>
-            {" | "}
-            <Link to={`/ListPatients/medecin/${userId}`}><IoIosPersonAdd /> Gérer Patients</Link>
-            {" | "}
+            <Link to={`/UpdateMedecin/${role}/${userId}`}><IoIosPersonAdd /> Modification du profils </Link>
+            <Link to={`/ListPatients/${role}/${userId}`}><IoIosPersonAdd /> Gérer Patients</Link>
             <FiLogOut onClick={logout} style={{ cursor: "pointer" }} />
         </nav>
     );
