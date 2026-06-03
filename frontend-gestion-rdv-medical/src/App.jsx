@@ -10,6 +10,8 @@ import ListPatients from './Components/Administrateur/ListPatients.jsx';
 import UpdateMedecin from './Components/Administrateur/UpdateMedecin.jsx';
 import UpdatePatient from './Components/Administrateur/UpdatePatient.jsx';
 import PriseRdv from './Components/Patient/PriseRdv.jsx';
+import DisponibiliterMedecin from './Components/Medecin/DisponibiliterMedecin.jsx';
+
 function App() {
 
   return (
@@ -51,6 +53,12 @@ function App() {
         <Route path="/PriseRdv/:role/:id" element={
           <ProtectedRoute allowedRoles={['admin', 'client']}>
             <PriseRdv/>
+          </ProtectedRoute>
+        }/>
+
+        <Route path="/ListDisponibility/:role/:id" element={
+          <ProtectedRoute allowedRoles={['medecin']}>
+            <DisponibiliterMedecin/>
           </ProtectedRoute>
         }/>
 

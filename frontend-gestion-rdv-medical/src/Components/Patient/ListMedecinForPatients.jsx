@@ -14,7 +14,7 @@ export default function ListMedecinForPatients({ medecins }){
                 <div key={med.id} onClick={() =>{ handleClickMed(med.id) }}>
                     <div>{med.nom_med}</div>
                     <div>Specialité : {med.specialite}</div>
-                    <div>Prestation : {med.taux_horaire} ar</div>
+                    <div>Prestation : {med.taux_horaire} ar/hr</div>
                     <div>Lieu : {med.lieu}</div>
                 </div>
             ))
