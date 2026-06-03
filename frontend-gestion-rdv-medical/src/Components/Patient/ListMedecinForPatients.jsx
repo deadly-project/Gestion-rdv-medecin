@@ -3,15 +3,18 @@ import { useNavigate } from "react-router-dom"
 
 export default function ListMedecinForPatients({ medecins }){
     const navigate = useNavigate();
-    const role = localStorage.getItem("role")
+    const role = sessionStorage.getItem("role")
     const handleClickMed = (id) =>{
+        console.log(id);
         navigate(`/PriseRdv/${role}/${id}`);
     }
     return(
         <div className="List-Medecin-For-Patient">
             {
             medecins.map(med => (
-                <div key={med.id} onClick={() =>{ handleClickMed(med.id) }}>
+                <div 
+                key={med.id_user} 
+                onClick={(e) =>{ handleClickMed(med.id_user) }}>
                     <div>{med.nom_med}</div>
                     <div>Specialité : {med.specialite}</div>
                     <div>Prestation : {med.taux_horaire} ar/hr</div>

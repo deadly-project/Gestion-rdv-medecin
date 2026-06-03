@@ -21,9 +21,9 @@ export default function Login() {
                 const id = res.data.id;
                 const role = res.data.role;
                 console.log("role" + role + ", id" + id);
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("id", id);
-                localStorage.setItem("role", role);
+                sessionStorage.setItem("token", res.data.token);
+                sessionStorage.setItem("id", id);
+                sessionStorage.setItem("role", role);
                 navigate(`/dashboard/${role}/${id}`);
             }else{
                 setAlert(res.data.message);

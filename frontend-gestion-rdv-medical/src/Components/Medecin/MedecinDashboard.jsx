@@ -5,7 +5,7 @@ import NavMedecin from "./NavMedecin";
 
 export default function MedecinDashboard({ userId }){
     const urlProfile = "http://localhost:8080/backend/api/profile";
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const [profile, setProfile] = useState(null);
     useEffect(() =>{
         const fetchProfile = async () => {

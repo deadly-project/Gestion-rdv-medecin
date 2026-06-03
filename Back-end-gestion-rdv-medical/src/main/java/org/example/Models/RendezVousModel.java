@@ -6,15 +6,16 @@ public class RendezVousModel {
 
     private int id_patient;
     private int id_medecin;
+    private int id_disponibilite;
 
     private String date_rdv;
-    private String heure_rdv;
+    private String heure_debut;
+    private String heure_fin;
 
+    private String statut; // pending, accepted, rejected
     private String motif;
 
-    private String statut;
-
-    public RendezVousModel(){}
+    public RendezVousModel() {}
 
     public int getId() {
         return id;
@@ -40,6 +41,14 @@ public class RendezVousModel {
         this.id_medecin = id_medecin;
     }
 
+    public int getId_disponibilite() {
+        return id_disponibilite;
+    }
+
+    public void setId_disponibilite(int id_disponibilite) {
+        this.id_disponibilite = id_disponibilite;
+    }
+
     public String getDate_rdv() {
         return date_rdv;
     }
@@ -48,20 +57,20 @@ public class RendezVousModel {
         this.date_rdv = date_rdv;
     }
 
-    public String getHeure_rdv() {
-        return heure_rdv;
+    public String getHeure_debut() {
+        return heure_debut;
     }
 
-    public void setHeure_rdv(String heure_rdv) {
-        this.heure_rdv = heure_rdv;
+    public void setHeure_debut(String heure_debut) {
+        this.heure_debut = heure_debut;
     }
 
-    public String getMotif() {
-        return motif;
+    public String getHeure_fin() {
+        return heure_fin;
     }
 
-    public void setMotif(String motif) {
-        this.motif = motif;
+    public void setHeure_fin(String heure_fin) {
+        this.heure_fin = heure_fin;
     }
 
     public String getStatut() {
@@ -70,5 +79,13 @@ public class RendezVousModel {
 
     public void setStatut(String statut) {
         this.statut = statut;
+    }
+
+    public String getMotif() {
+        return motif;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
     }
 }

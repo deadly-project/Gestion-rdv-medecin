@@ -7,7 +7,7 @@ import NavAdmin from "./NavAdmin";
 export default function AdminDashboard({ userId }){
     const urlProfile = "http://localhost:8080/backend/api/profile";
     const urlUsers = "http://localhost:8080/backend/api/admin";
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const [profile, setProfile] = useState(null);
     const [users, setUsers] = useState([]);
     useEffect(() =>{

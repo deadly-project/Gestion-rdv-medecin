@@ -6,8 +6,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 export default function ListPatients(){
     const [patients, setPatients] = useState([]);
-    const userId = localStorage.getItem("id");
-    const token = localStorage.getItem("token");
+    const userId = sessionStorage.getItem("id");
+    const token = sessionStorage.getItem("token");
     const navigate = useNavigate();
     useEffect(() => {
 

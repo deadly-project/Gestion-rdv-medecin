@@ -2,8 +2,8 @@ import { Navigate } from "react-router-dom";
 
 function ProtectedRoute({ children, allowedRoles }) {
 
-    const token = localStorage.getItem("token");
-    const userRole = localStorage.getItem("role");
+    const token = sessionStorage.getItem("token");
+    const userRole = sessionStorage.getItem("role");
     if (!token) {
         return <Navigate to="/" />;
     }

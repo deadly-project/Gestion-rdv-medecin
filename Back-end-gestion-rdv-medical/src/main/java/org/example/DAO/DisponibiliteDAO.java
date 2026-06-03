@@ -230,4 +230,52 @@ public class DisponibiliteDAO {
 
         return false;
     }
+
+    // =========================
+// GET DISPONIBILITES PAR MEDECIN + DATE
+// =========================
+    public List<DisponibiliteModel> getDisponibilitesByMedecinAndDate(
+            int idMedecin,
+            String date
+    ) {
+
+        List<DisponibiliteModel> list = new ArrayList<>();
+
+        String sql = """
+        SELECT *
+        FROM disponibilites_medecin
+        WHERE id_medecin = ?
+        AND date_disponibilite = ?
+        ORDER BY heure_debut
+    """;
+
+        try (
+                Connection con = ConnectionDB.getConnection();
+                PreparedStatement stmt = con.prepareStatement(sql)
+        ) {
+
+            stmt.setInt(1, idMedecin);
+            stmt.setDate(2, Date.valueOf(date));
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                DisponibiliteModel d = new DisponibiliteModel();
+
+                d.setId(rs.getInt("id"));
+                d.setId_medecin(rs.getInt("id_medecin"));
+                d.setDate_disponibilite(rs.getDate("date_disponibilite").toString());
+                d.setHeure_debut(rs.getTime("heure_debut").toString());
+                d.setHeure_fin(rs.getTime("heure_fin").toString());
+
+                list.add(d);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

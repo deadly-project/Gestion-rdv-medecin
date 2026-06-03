@@ -7,31 +7,21 @@ import java.util.List;
 
 public class RendezVousController {
 
-    private final RendezVousDAO dao =
-            new RendezVousDAO();
+    private final RendezVousDAO dao = new RendezVousDAO();
 
-    public boolean createRendezVous(
-            RendezVousModel rdv
-    ){
+    public boolean create(RendezVousModel rdv) {
         return dao.createRendezVous(rdv);
     }
 
-    public List<RendezVousModel>
-    getPatientRdv(
-            int patientId
-    ){
-        return dao.getPatientRdv(patientId);
+    public List<RendezVousModel> getByPatient(int id) {
+        return dao.getPatientRdv(id);
     }
 
-    public boolean validateRdv(
-            int id
-    ){
+    public boolean validate(int id) {
         return dao.validateRdv(id);
     }
 
-    public boolean refuseRdv(
-            int id
-    ){
+    public boolean refuse(int id) {
         return dao.refuseRdv(id);
     }
 }

@@ -8,7 +8,7 @@ import RechercheMedecin from "./RechercheMedecin";
 
 export default function PatientDashboard({ userId }) {
 
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     const urlProfile =
         "http://localhost:8080/backend/api/profile";

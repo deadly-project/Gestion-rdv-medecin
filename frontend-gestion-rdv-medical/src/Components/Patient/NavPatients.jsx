@@ -5,7 +5,7 @@ import { IoIosPersonAdd } from "react-icons/io";
 
 export default function NavPatients({ userId }) {
     const navigate = useNavigate();
-    const role = localStorage.getItem("role");
+    const role = sessionStorage.getItem("role");
     const logout = () => {
         localStorage.clear();
         navigate("/");

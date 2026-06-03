@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export default function RechercheMedecin({ setMedecins }){
 
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const urlMedecins =
         "http://localhost:8080/backend/api/medecins";
     const [filters, setFilters] = useState({

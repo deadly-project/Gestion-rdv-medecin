@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 export default function ListMedecins(){
     const navigate = useNavigate();
     const [medecins, setMedecins] = useState([]);
-    const userId = localStorage.getItem("id");
-    const token = localStorage.getItem("token");
+    const userId = sessionStorage.getItem("id");
+    const token = sessionStorage.getItem("token");
 
     useEffect(() => {
 

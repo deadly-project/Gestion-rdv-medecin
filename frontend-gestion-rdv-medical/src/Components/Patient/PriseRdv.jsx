@@ -1,24 +1,34 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import { format } from 'date-fns';
 import 'react-calendar/dist/Calendar.css';
+import axios from "axios";
 
-export default function PriseRdv({  }){
+export default function PriseRdv(){
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [availableSlots, setAvailableSlots] = useState([]);
-    const role = localStorage.getItem('role');
-    const id = localStorage.getItem('id');
+    const {role, id} = useParams();
+    const roleUser = sessionStorage.getItem('role');
+    const token = sessionStorage.getItem('token');
+    const id_user = sessionStorage.getItem('id');
+    const urlSlots = "http://localhost:8080/backend/api/slots";
 
   // Simuler une API qui récupère les créneaux libres pour la date choisie
   useEffect(() => {
     const fetchSlots = async () => {
       const dateStr = format(selectedDate, 'yyyy-MM-dd');
-      
-      // Ici, vous appelleriez votre backend : fetch(`/api/slots?date=${dateStr}`)
-      // Exemple de données reçues :
-      const mockSlots = ['09:00', '09:30', '10:00', '11:00', '14:30', '15:00'];
-      setAvailableSlots(mockSlots);
+      console.log(id, dateStr);
+      const res = await axios.get(
+        `${urlSlots}?idMedecin=${id}&date=${dateStr}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+      )
+      console.log(res.data);
+      setAvailableSlots(res.data);
     };
 
     fetchSlots();
@@ -27,7 +37,7 @@ export default function PriseRdv({  }){
   return (
 
     <div className="appointment-container">
-    <Link to={`/dashboard/${role}/${id}`} >retour</Link>  
+    <Link to={`/dashboard/${role}/${id_user}`} >retour</Link>  
       {/* 1. Sélecteur de date */}
       <div className="calendar-section">
         <h3 className="section-title">Choisir une date</h3>
@@ -48,13 +58,11 @@ export default function PriseRdv({  }){
         <div className="slots-grid">
           {availableSlots.length > 0 ? (
             availableSlots.map((slot) => (
-              <button
-                key={slot}
-                onClick={() => alert(`Rendez-vous réservé pour ${slot}`)}
-                className="slot-button"
-              >
-                {slot}
-              </button>
+              
+            <div key={slot.id_disponibilite}>
+              {slot.heure_debut}
+              {slot.heure_fin}
+            </div>
             ))
           ) : (
             <p className="no-slots-message">Aucun créneau disponible pour ce jour.</p>

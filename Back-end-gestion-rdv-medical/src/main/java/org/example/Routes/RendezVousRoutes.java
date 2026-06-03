@@ -10,14 +10,11 @@ import org.example.Controller.RendezVousController;
 import java.io.IOException;
 
 @WebServlet("/api/rendezvous")
-public class RendezVousRoutes
-        extends HttpServlet {
+public class RendezVousRoutes extends HttpServlet {
 
-    private final Gson gson =
-            new Gson();
+    private final Gson gson = new Gson();
 
-    private final RendezVousController controller =
-            new RendezVousController();
+    private final RendezVousController rendezVousController = new RendezVousController();
 
     @Override
     protected void doGet(
@@ -37,10 +34,7 @@ public class RendezVousRoutes
 
         response.getWriter().write(
                 gson.toJson(
-                        controller
-                                .getPatientRdv(
-                                        patientId
-                                )
+                        rendezVousController.getByPatient(patientId)
                 )
         );
     }

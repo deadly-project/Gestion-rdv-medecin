@@ -5,9 +5,9 @@ import NavAdmin from "./NavAdmin";
 import NavPatients from "../Patient/NavPatients";
 export default function UpdatePatient() {
     const {role, id} = useParams();
-    const idUserConnected = localStorage.getItem("id");
-    const token = localStorage.getItem("token");
-    const userRoleConnected = localStorage.getItem("role");
+    const idUserConnected = sessionStorage.getItem("id");
+    const token = sessionStorage.getItem("token");
+    const userRoleConnected = sessionStorage.getItem("role");
 
     const usernameModified = useRef(false);
     const originalUsername = useRef("");
