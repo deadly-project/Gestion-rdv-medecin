@@ -1,6 +1,7 @@
 package org.example.Controller;
 
 import org.example.DAO.MedecinsDAO;
+import org.example.DTO.TopMedecinDTO;
 import org.example.Models.MedecinModels;
 
 import java.util.List;
@@ -30,5 +31,9 @@ public class MedecinsController {
                 tauxMin,
                 tauxMax
         );
+    }
+
+    public List<TopMedecinDTO> getTopMedecins() {
+        return dao.getTopMedecins();
     }
 }

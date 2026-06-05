@@ -3,13 +3,18 @@ import { useEffect, useState } from "react"
 import Profile from "../Common/Profil";
 import ListUsers from "./ListUser";
 import NavAdmin from "./NavAdmin";
+import ClassementMedecin from "./ClassementMedecin";
 
 export default function AdminDashboard({ userId }){
     const urlProfile = "http://localhost:8080/backend/api/profile";
     const urlUsers = "http://localhost:8080/backend/api/admin";
+    const urlTop = "http://localhost:8080/backend/api/top-medecins";
+
     const token = sessionStorage.getItem("token");
     const [profile, setProfile] = useState(null);
     const [users, setUsers] = useState([]);
+    const [TopMeds, setTopMeds] = useState([]);
+
 
     useEffect(() =>{
         const fetchProfile = async () => {
@@ -18,13 +23,13 @@ export default function AdminDashboard({ userId }){
                 const headers = {
                             Authorization: `Bearer ${token}`
                         };
-                const [profileRes, usersRes] = await Promise.all([
+                const [profileRes, topRes] = await Promise.all([
                     axios.get(
                         urlProfile,
                         { headers }
                     ),
                     axios.get(
-                        urlUsers,
+                        urlTop,
                         { headers }
                     )
                 ]
@@ -33,7 +38,7 @@ export default function AdminDashboard({ userId }){
 
 
                 setProfile(profileRes.data);
-                setUsers(usersRes.data);
+                setTopMeds(topRes.data);
             } catch(err) {
 
                 console.log(err);
@@ -46,7 +51,8 @@ export default function AdminDashboard({ userId }){
         <div>
             <NavAdmin userId={userId} />
             { profile ? <Profile info={profile}/> :<p>Chargement du profile</p> }
-            { users.length > 0 ? <ListUsers Users={users}/> :<p>Chargement des utilisateur</p> }
+            {/* { users.length > 0 ? <ListUsers Users={users}/> :<p>Chargement des utilisateur</p> } */}
+            { TopMeds ? <ClassementMedecin TopMeds={TopMeds}/>:<p>Aucun medecin</p>}
         </div>
     )
 }
