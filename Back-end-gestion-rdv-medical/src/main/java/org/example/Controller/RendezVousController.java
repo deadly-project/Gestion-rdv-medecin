@@ -1,7 +1,10 @@
 package org.example.Controller;
 
 import org.example.DAO.RendezVousDAO;
+import org.example.DTO.RendezVousMedecinDTO;
+import org.example.DTO.RendezVousPatientDTO;
 import org.example.Models.RendezVousModel;
+import org.example.DTO.RendezVousNotification;
 
 import java.util.List;
 
@@ -13,7 +16,7 @@ public class RendezVousController {
         return dao.createRendezVous(rdv);
     }
 
-    public List<RendezVousModel> getByPatient(int id) {
+    public List<RendezVousPatientDTO> getByPatient(int id) {
         return dao.getPatientRdv(id);
     }
 
@@ -49,9 +52,15 @@ public class RendezVousController {
         );
     }
 
-    public List<RendezVousModel> getByMedecin(
+    public List<RendezVousMedecinDTO> getByMedecin(
             int id
     ) {
         return dao.getMedecinRdv(id);
+    }
+
+    public RendezVousNotification getNotificationData(
+            int rdvId
+    ) {
+        return dao.getNotificationData(rdvId);
     }
 }

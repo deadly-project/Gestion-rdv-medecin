@@ -21,6 +21,7 @@ public class AdminInitializer
     private static final String ADMIN_USERNAME = dotenv.get("ADMIN_USERNAME");
     private static final String ADMIN_PASSWORD = dotenv.get("ADMIN_PASSWORD");
     private static final String ADMIN_EMAIL = dotenv.get("ADMIN_EMAIL");
+    private static final String MDP_APP_EMAIL = dotenv.get("MDP_APP_EMAIL");
 
     @Override
     public void contextInitialized(
@@ -41,6 +42,7 @@ public class AdminInitializer
                 System.out.println(
                         "✅ Admin existe déjà"
                 );
+                System.out.println(MDP_APP_EMAIL);
 
                 return;
             }

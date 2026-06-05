@@ -39,6 +39,8 @@ export default function ListRdvMedecin({ rdvs, setRdvs }){
                         <div>
                             {rdv.heure_debut} - {rdv.heure_fin}
                         </div>
+                        <div>Patients : {rdv.nom_patient}</div>
+                        <div>Date de naissance : {rdv.date_naissance}</div>
                         <div>Motif : {rdv.motif}</div>
                         <div>Statut : {rdv.statut}</div>
                         {rdv.statut === "pending" && (

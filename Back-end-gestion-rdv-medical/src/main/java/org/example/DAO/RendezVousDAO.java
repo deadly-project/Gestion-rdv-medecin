@@ -1,7 +1,10 @@
 package org.example.DAO;
 
+import org.example.DTO.RendezVousMedecinDTO;
+import org.example.DTO.RendezVousPatientDTO;
 import org.example.Models.RendezVousModel;
 import org.example.configuration.ConnectionDB;
+import org.example.DTO.RendezVousNotification;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -55,14 +58,32 @@ public class RendezVousDAO {
     // =========================
     // GET RDV PATIENT
     // =========================
-    public List<RendezVousModel> getPatientRdv(int patientId) {
+    public List<RendezVousPatientDTO> getPatientRdv(int patientId) {
 
-        List<RendezVousModel> list = new ArrayList<>();
+        List<RendezVousPatientDTO> list = new ArrayList<>();
 
         String sql = """
-            SELECT * FROM rendez_vous
-            WHERE id_patient=?
-            ORDER BY date_rdv DESC
+            SELECT
+                rv.id,
+                rv.date_rdv,
+                rv.heure_debut,
+                rv.heure_fin,
+                rv.motif,
+                rv.statut,
+                                  
+                m.nom_med,
+                m.specialite,
+                m.lieu,
+                m.taux_horaire
+                                  
+                FROM rendez_vous rv
+                                  
+                INNER JOIN medecins m
+                      ON rv.id_medecin = m.id_user
+                                  
+                WHERE rv.id_patient = ?
+                                  
+                ORDER BY rv.date_rdv DESC
         """;
 
         try (
@@ -75,20 +96,46 @@ public class RendezVousDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-
-                RendezVousModel r = new RendezVousModel();
+                RendezVousPatientDTO r =
+                        new RendezVousPatientDTO();
 
                 r.setId(rs.getInt("id"));
-                r.setId_patient(rs.getInt("id_patient"));
-                r.setId_medecin(rs.getInt("id_medecin"));
-                r.setId_disponibilite(rs.getInt("id_disponibilite"));
 
-                r.setDate_rdv(rs.getDate("date_rdv").toString());
-                r.setHeure_debut(rs.getTime("heure_debut").toString());
-                r.setHeure_fin(rs.getTime("heure_fin").toString());
+                r.setDate_rdv(
+                        rs.getDate("date_rdv").toString()
+                );
 
-                r.setMotif(rs.getString("motif"));
-                r.setStatut(rs.getString("statut"));
+                r.setHeure_debut(
+                        rs.getTime("heure_debut").toString()
+                );
+
+                r.setHeure_fin(
+                        rs.getTime("heure_fin").toString()
+                );
+
+                r.setMotif(
+                        rs.getString("motif")
+                );
+
+                r.setStatut(
+                        rs.getString("statut")
+                );
+
+                r.setNom_medecin(
+                        rs.getString("nom_med")
+                );
+
+                r.setSpecialite(
+                        rs.getString("specialite")
+                );
+
+                r.setLieu(
+                        rs.getString("lieu")
+                );
+
+                r.setTaux_horaire(
+                        rs.getInt("taux_horaire")
+                );
 
                 list.add(r);
             }
@@ -192,14 +239,14 @@ public class RendezVousDAO {
     // =========================
 // GET RDV PAR MEDECIN + DATE
 // =========================
-    public List<RendezVousModel> getRdvByMedecinAndDate(
-            int idMedecin,
-            String date
+        public List<RendezVousModel> getRdvByMedecinAndDate(
+        int idMedecin,
+        String date
     ) {
 
-        List<RendezVousModel> list = new ArrayList<>();
+            List<RendezVousModel> list = new ArrayList<>();
 
-        String sql = """
+            String sql = """
         SELECT *
         FROM rendez_vous
         WHERE id_medecin = ?
@@ -208,41 +255,41 @@ public class RendezVousDAO {
         ORDER BY heure_debut
     """;
 
-        try (
-                Connection con = ConnectionDB.getConnection();
-                PreparedStatement stmt = con.prepareStatement(sql)
-        ) {
+            try (
+                    Connection con = ConnectionDB.getConnection();
+                    PreparedStatement stmt = con.prepareStatement(sql)
+            ) {
 
-            stmt.setInt(1, idMedecin);
-            stmt.setDate(2, Date.valueOf(date));
+                stmt.setInt(1, idMedecin);
+                stmt.setDate(2, Date.valueOf(date));
 
-            ResultSet rs = stmt.executeQuery();
+                ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
+                while (rs.next()) {
 
-                RendezVousModel r = new RendezVousModel();
+                    RendezVousModel r = new RendezVousModel();
 
-                r.setId(rs.getInt("id"));
-                r.setId_patient(rs.getInt("id_patient"));
-                r.setId_medecin(rs.getInt("id_medecin"));
-                r.setId_disponibilite(rs.getInt("id_disponibilite"));
+                    r.setId(rs.getInt("id"));
+                    r.setId_patient(rs.getInt("id_patient"));
+                    r.setId_medecin(rs.getInt("id_medecin"));
+                    r.setId_disponibilite(rs.getInt("id_disponibilite"));
 
-                r.setDate_rdv(rs.getDate("date_rdv").toString());
-                r.setHeure_debut(rs.getTime("heure_debut").toString());
-                r.setHeure_fin(rs.getTime("heure_fin").toString());
+                    r.setDate_rdv(rs.getDate("date_rdv").toString());
+                    r.setHeure_debut(rs.getTime("heure_debut").toString());
+                    r.setHeure_fin(rs.getTime("heure_fin").toString());
 
-                r.setMotif(rs.getString("motif"));
-                r.setStatut(rs.getString("statut"));
+                    r.setMotif(rs.getString("motif"));
+                    r.setStatut(rs.getString("statut"));
 
-                list.add(r);
+                    list.add(r);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            return list;
         }
-
-        return list;
-    }
 
     //ANNULATION DE RENDEZ-VOUS PAR LE PATIENTS
     public boolean cancelRdv(int id) {
@@ -329,19 +376,34 @@ public class RendezVousDAO {
         return false;
     }
 
-    public List<RendezVousModel> getMedecinRdv(
+    public List<RendezVousMedecinDTO> getMedecinRdv(
             int medecinId
     ) {
 
-        List<RendezVousModel> list =
+        List<RendezVousMedecinDTO> list =
                 new ArrayList<>();
 
         String sql = """
-        SELECT *
-        FROM rendez_vous
-        WHERE id_medecin = ?
-        ORDER BY date_rdv DESC,
-                 heure_debut ASC
+        SELECT
+        rv.id,
+        rv.date_rdv,
+        rv.heure_debut,
+        rv.heure_fin,
+        rv.motif,
+        rv.statut,
+                            
+        p.nom_pat,
+        p.datenais
+                            
+        FROM rendez_vous rv
+                            
+        INNER JOIN patients p
+            ON rv.id_patient = p.id_user
+                            
+        WHERE rv.id_medecin = ?
+                            
+        ORDER BY rv.date_rdv DESC,
+                 rv.heure_debut ASC
     """;
 
 
@@ -363,38 +425,23 @@ public class RendezVousDAO {
 
             while (rs.next()) {
 
-                RendezVousModel r =
-                        new RendezVousModel();
+                RendezVousMedecinDTO r =
+                        new RendezVousMedecinDTO();
 
                 r.setId(
                         rs.getInt("id")
                 );
 
-                r.setId_patient(
-                        rs.getInt("id_patient")
-                );
-
-                r.setId_medecin(
-                        rs.getInt("id_medecin")
-                );
-
-                r.setId_disponibilite(
-                        rs.getInt("id_disponibilite")
-                );
-
                 r.setDate_rdv(
-                        rs.getDate("date_rdv")
-                                .toString()
+                        rs.getDate("date_rdv").toString()
                 );
 
                 r.setHeure_debut(
-                        rs.getTime("heure_debut")
-                                .toString()
+                        rs.getTime("heure_debut").toString()
                 );
 
                 r.setHeure_fin(
-                        rs.getTime("heure_fin")
-                                .toString()
+                        rs.getTime("heure_fin").toString()
                 );
 
                 r.setMotif(
@@ -403,6 +450,14 @@ public class RendezVousDAO {
 
                 r.setStatut(
                         rs.getString("statut")
+                );
+
+                r.setNom_patient(
+                        rs.getString("nom_pat")
+                );
+
+                r.setDate_naissance(
+                        rs.getDate("datenais").toString()
                 );
 
                 list.add(r);
@@ -414,5 +469,84 @@ public class RendezVousDAO {
         }
 
         return list;
+    }
+
+    public RendezVousNotification getNotificationData(
+            int rdvId
+    ) {
+
+        String sql = """
+        SELECT
+            rv.id,
+            u.email,
+            p.nom_pat,
+            m.nom_med,
+            rv.date_rdv,
+            rv.heure_debut,
+            rv.heure_fin
+        FROM rendez_vous rv
+        JOIN patients p
+            ON rv.id_patient = p.id_user
+        JOIN users u
+            ON p.id_user = u.id
+        JOIN medecins m
+            ON rv.id_medecin = m.id_user
+        WHERE rv.id = ?
+    """;
+
+        try (
+                Connection con =
+                        ConnectionDB.getConnection();
+
+                PreparedStatement stmt =
+                        con.prepareStatement(sql)
+        ) {
+
+            stmt.setInt(1, rdvId);
+
+            ResultSet rs =
+                    stmt.executeQuery();
+
+            if(rs.next()) {
+
+                RendezVousNotification n =
+                        new RendezVousNotification();
+
+                n.setId(
+                        rs.getInt("id")
+                );
+
+                n.setEmailPatient(
+                        rs.getString("email")
+                );
+
+                n.setNomPatient(
+                        rs.getString("nom_pat")
+                );
+
+                n.setNomMedecin(
+                        rs.getString("nom_med")
+                );
+
+                n.setDateRdv(
+                        rs.getDate("date_rdv").toString()
+                );
+
+                n.setHeureDebut(
+                        rs.getTime("heure_debut").toString()
+                );
+
+                n.setHeureFin(
+                        rs.getTime("heure_fin").toString()
+                );
+
+                return n;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

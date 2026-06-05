@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.Controller.RendezVousController;
 import org.example.Models.RendezVousModel;
+import org.example.Services.EmailService;
+import org.example.DTO.RendezVousNotification;
 
 import java.io.IOException;
 
@@ -19,6 +21,9 @@ public class RendezVousRoutes extends HttpServlet {
 
     private final RendezVousController controller =
             new RendezVousController();
+
+    private final EmailService emailService =
+            new EmailService();
 
     // =========================
     // LISTE DES RDV DU PATIENT et DU MEDECIN
@@ -237,6 +242,30 @@ public class RendezVousRoutes extends HttpServlet {
 
                 success =
                         controller.validate(id);
+
+                if(success) {
+
+                    RendezVousNotification data =
+                            controller.getNotificationData(id);
+
+                    emailService.sendMail(
+                            data.getEmailPatient(),
+                            "Rendez-vous validé ✅",
+                            """
+                            Bonjour,
+                
+                            Votre rendez-vous avec Dr %s
+                            du %s à %s a été validé.
+                
+                            Cordialement.
+                            """
+                                    .formatted(
+                                            data.getNomMedecin(),
+                                            data.getDateRdv(),
+                                            data.getHeureDebut()
+                                    )
+                    );
+                }
             }
 
             else if ("refuse".equals(action)) {
@@ -248,6 +277,31 @@ public class RendezVousRoutes extends HttpServlet {
 
                 success =
                         controller.refuse(id);
+
+                if(success) {
+
+                    RendezVousNotification data =
+                            controller.getNotificationData(id);
+
+                    emailService.sendMail(
+                            data.getEmailPatient(),
+                            "Rendez-vous refusé \uD83D\uDEAB",
+                            """
+                            Bonjour,
+                
+                            Votre demande de rendez-vous
+                            avec Dr %s du %s à %s
+                            a été refusée.
+                
+                            Merci de choisir un autre créneau.
+                            """
+                                    .formatted(
+                                            data.getNomMedecin(),
+                                            data.getDateRdv(),
+                                            data.getHeureDebut()
+                                    )
+                    );
+                }
             }
 
             else if ("update".equals(action)) {
@@ -322,6 +376,31 @@ public class RendezVousRoutes extends HttpServlet {
 
             boolean success =
                     controller.cancel(id);
+
+            if(success) {
+
+                RendezVousNotification data =
+                        controller.getNotificationData(id);
+
+                emailService.sendMail(
+                        data.getEmailPatient(),
+                        "Rendez-vous annulé ❌",
+                        """
+                        Bonjour,
+            
+                        Votre rendez-vous avec Dr %s
+                        prévu le %s à %s
+                        a été annulé.
+            
+                        Cordialement.
+                        """
+                                .formatted(
+                                        data.getNomMedecin(),
+                                        data.getDateRdv(),
+                                        data.getHeureDebut()
+                                )
+                );
+            }
 
             JsonObject result =
                     new JsonObject();

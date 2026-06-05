@@ -104,7 +104,12 @@ export default function ListRdvPatient(){
                         <div key={rdv.id}>
                             <h4>{rdv.date_rdv}</h4>
                             <div>{rdv.heure_debut}{" - "}{rdv.heure_fin}</div>
+                            <div>Medecin :{" "}{rdv.nom_medecin}</div>
+                            <div>Specialité :{" "}{rdv.specialite}</div>
+                            <div>lieu :{" "}{rdv.lieu}</div>
+                            <div>Taux horaire :{" "}{rdv.taux_horaire} ar / heure</div>
                             <div>Motif :{" "}{rdv.motif}</div>
+
                             <div>Statut :{" "}{rdv.statut}</div>
                             {
                                 rdv.statut === "pending"
