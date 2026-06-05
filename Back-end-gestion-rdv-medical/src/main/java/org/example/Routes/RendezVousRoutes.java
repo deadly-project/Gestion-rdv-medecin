@@ -1,41 +1,337 @@
 package org.example.Routes;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.Controller.RendezVousController;
+import org.example.Models.RendezVousModel;
 
 import java.io.IOException;
 
 @WebServlet("/api/rendezvous")
 public class RendezVousRoutes extends HttpServlet {
 
-    private final Gson gson = new Gson();
+    private final Gson gson =
+            new Gson();
 
-    private final RendezVousController rendezVousController = new RendezVousController();
+    private final RendezVousController controller =
+            new RendezVousController();
 
+    // =========================
+    // LISTE DES RDV DU PATIENT
+    // =========================
     @Override
     protected void doGet(
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
 
-        Integer patientId =
-                (Integer)
-                        request.getAttribute(
-                                "userId"
-                        );
+        response.setContentType(
+                "application/json"
+        );
+
+        try {
+
+            Integer patientId =
+                    (Integer) request.getAttribute(
+                            "userId"
+                    );
+
+            response.getWriter().write(
+                    gson.toJson(
+                            controller.getByPatient(
+                                    patientId
+                            )
+                    )
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            response.setStatus(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+            );
+
+            response.getWriter().write("""
+            {
+              "success": false,
+              "message": "Erreur serveur"
+            }
+            """);
+        }
+    }
+
+    // =========================
+    // CREATION RDV
+    // =========================
+    @Override
+    protected void doPost(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
 
         response.setContentType(
                 "application/json"
         );
 
-        response.getWriter().write(
-                gson.toJson(
-                        rendezVousController.getByPatient(patientId)
-                )
+        try {
+
+            Integer patientId =
+                    (Integer) request.getAttribute(
+                            "userId"
+                    );
+
+            String role =
+                    (String) request.getAttribute(
+                            "role"
+                    );
+
+            if (
+                    role == null ||
+                            !role.equals("client")
+            ) {
+
+                response.setStatus(
+                        HttpServletResponse.SC_FORBIDDEN
+                );
+
+                response.getWriter().write("""
+                {
+                  "success": false,
+                  "message": "Accès refusé"
+                }
+                """);
+
+                return;
+            }
+
+            RendezVousModel rdv =
+                    gson.fromJson(
+                            request.getReader(),
+                            RendezVousModel.class
+                    );
+
+            rdv.setId_patient(
+                    patientId
+            );
+
+            boolean existe =
+                    controller.slotExiste(
+                            rdv.getId_medecin(),
+                            rdv.getDate_rdv(),
+                            rdv.getHeure_debut(),
+                            rdv.getHeure_fin()
+                    );
+
+            if (existe) {
+
+                response.setStatus(
+                        HttpServletResponse.SC_CONFLICT
+                );
+
+                response.getWriter().write("""
+                {
+                  "success": false,
+                  "message": "Ce créneau est déjà réservé"
+                }
+                """);
+
+                return;
+            }
+
+            boolean success =
+                    controller.create(rdv);
+
+            JsonObject result =
+                    new JsonObject();
+
+            result.addProperty(
+                    "success",
+                    success
+            );
+
+            result.addProperty(
+                    "message",
+                    success
+                            ? "Rendez-vous créé"
+                            : "Erreur lors de la création"
+            );
+
+            response.getWriter().write(
+                    result.toString()
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            response.setStatus(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+            );
+
+            response.getWriter().write("""
+            {
+              "success": false,
+              "message": "Erreur serveur"
+            }
+            """);
+        }
+    }
+
+    // =========================
+    // VALIDER / REFUSER / MODIFIER
+    // =========================
+    @Override
+    protected void doPut(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+
+        response.setContentType(
+                "application/json"
         );
+
+        try {
+
+            String action =
+                    request.getParameter(
+                            "action"
+                    );
+
+            boolean success = false;
+
+            if ("validate".equals(action)) {
+
+                int id =
+                        Integer.parseInt(
+                                request.getParameter("id")
+                        );
+
+                success =
+                        controller.validate(id);
+            }
+
+            else if ("refuse".equals(action)) {
+
+                int id =
+                        Integer.parseInt(
+                                request.getParameter("id")
+                        );
+
+                success =
+                        controller.refuse(id);
+            }
+
+            else if ("update".equals(action)) {
+
+                RendezVousModel rdv =
+                        gson.fromJson(
+                                request.getReader(),
+                                RendezVousModel.class
+                        );
+
+                success =
+                        controller.update(rdv);
+            }
+
+            JsonObject result =
+                    new JsonObject();
+
+            result.addProperty(
+                    "success",
+                    success
+            );
+
+            result.addProperty(
+                    "message",
+                    success
+                            ? "Opération réussie"
+                            : "Échec de l'opération"
+            );
+
+            response.getWriter().write(
+                    result.toString()
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            response.setStatus(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+            );
+
+            response.getWriter().write("""
+            {
+              "success": false,
+              "message": "Erreur serveur"
+            }
+            """);
+        }
+    }
+
+    // =========================
+    // ANNULER RDV
+    // =========================
+    @Override
+    protected void doDelete(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+
+        response.setContentType(
+                "application/json"
+        );
+
+        try {
+
+            int id =
+                    Integer.parseInt(
+                            request.getParameter(
+                                    "id"
+                            )
+                    );
+
+            boolean success =
+                    controller.cancel(id);
+
+            JsonObject result =
+                    new JsonObject();
+
+            result.addProperty(
+                    "success",
+                    success
+            );
+
+            result.addProperty(
+                    "message",
+                    success
+                            ? "Rendez-vous annulé"
+                            : "Erreur annulation"
+            );
+
+            response.getWriter().write(
+                    result.toString()
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            response.setStatus(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+            );
+
+            response.getWriter().write("""
+            {
+              "success": false,
+              "message": "Erreur serveur"
+            }
+            """);
+        }
     }
 }

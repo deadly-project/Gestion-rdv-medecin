@@ -12,7 +12,7 @@ public class RendezVousModel {
     private String heure_debut;
     private String heure_fin;
 
-    private String statut; // pending, accepted, rejected
+    private String statut; // pending, validated, rejected
     private String motif;
 
     public RendezVousModel() {}

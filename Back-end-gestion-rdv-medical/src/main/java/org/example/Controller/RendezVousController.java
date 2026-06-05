@@ -24,4 +24,34 @@ public class RendezVousController {
     public boolean refuse(int id) {
         return dao.refuseRdv(id);
     }
+
+    public boolean cancel(int id) {
+        return dao.cancelRdv(id);
+    }
+
+    public boolean update(
+            RendezVousModel rdv
+    ) {
+        return dao.updateRendezVous(rdv);
+    }
+
+    public boolean slotExiste(
+            int idMedecin,
+            String date,
+            String debut,
+            String fin
+    ) {
+        return dao.slotExiste(
+                idMedecin,
+                date,
+                debut,
+                fin
+        );
+    }
+
+    public List<RendezVousModel> getByMedecin(
+            int id
+    ) {
+        return dao.getMedecinRdv(id);
+    }
 }
