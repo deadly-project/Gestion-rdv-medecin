@@ -340,9 +340,10 @@ public class RendezVousDAO {
         SELECT *
         FROM rendez_vous
         WHERE id_medecin = ?
-        AND statut IN ('pending','validated')
-        ORDER BY date_rdv ASC, heure_debut ASC
+        ORDER BY date_rdv DESC,
+                 heure_debut ASC
     """;
+
 
         try (
                 Connection con =

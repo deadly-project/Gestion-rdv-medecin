@@ -21,7 +21,7 @@ public class RendezVousRoutes extends HttpServlet {
             new RendezVousController();
 
     // =========================
-    // LISTE DES RDV DU PATIENT
+    // LISTE DES RDV DU PATIENT et DU MEDECIN
     // =========================
     @Override
     protected void doGet(
@@ -35,18 +35,49 @@ public class RendezVousRoutes extends HttpServlet {
 
         try {
 
-            Integer patientId =
+            Integer userId =
                     (Integer) request.getAttribute(
                             "userId"
                     );
 
-            response.getWriter().write(
-                    gson.toJson(
-                            controller.getByPatient(
-                                    patientId
-                            )
-                    )
-            );
+            String role =
+                    (String) request.getAttribute(
+                            "role"
+                    );
+
+            if ("client".equals(role)) {
+
+                response.getWriter().write(
+                        gson.toJson(
+                                controller.getByPatient(
+                                        userId
+                                )
+                        )
+                );
+
+            } else if ("medecin".equals(role)) {
+
+                response.getWriter().write(
+                        gson.toJson(
+                                controller.getByMedecin(
+                                        userId
+                                )
+                        )
+                );
+
+            } else {
+
+                response.setStatus(
+                        HttpServletResponse.SC_FORBIDDEN
+                );
+
+                response.getWriter().write("""
+            {
+                "success": false,
+                "message": "Accès refusé"
+            }
+            """);
+            }
 
         } catch (Exception e) {
 
@@ -55,13 +86,6 @@ public class RendezVousRoutes extends HttpServlet {
             response.setStatus(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR
             );
-
-            response.getWriter().write("""
-            {
-              "success": false,
-              "message": "Erreur serveur"
-            }
-            """);
         }
     }
 

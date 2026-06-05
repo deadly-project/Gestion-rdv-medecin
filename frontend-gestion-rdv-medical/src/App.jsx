@@ -11,6 +11,7 @@ import UpdateMedecin from './Components/Administrateur/UpdateMedecin.jsx';
 import UpdatePatient from './Components/Administrateur/UpdatePatient.jsx';
 import PriseRdv from './Components/Patient/PriseRdv.jsx';
 import DisponibiliterMedecin from './Components/Medecin/DisponibiliterMedecin.jsx';
+import ListRdvPatient from './Components/Patient/ListRdvPatient.jsx';
 
 function App() {
 
@@ -59,6 +60,12 @@ function App() {
         <Route path="/ListDisponibility/:role/:id" element={
           <ProtectedRoute allowedRoles={['medecin']}>
             <DisponibiliterMedecin/>
+          </ProtectedRoute>
+        }/>
+
+        <Route path="/ListRdv/:role/:id" element={
+          <ProtectedRoute allowedRoles={['client']}>
+            <ListRdvPatient/>
           </ProtectedRoute>
         }/>
 

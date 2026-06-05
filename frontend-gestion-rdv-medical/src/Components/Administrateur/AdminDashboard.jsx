@@ -10,6 +10,7 @@ export default function AdminDashboard({ userId }){
     const token = sessionStorage.getItem("token");
     const [profile, setProfile] = useState(null);
     const [users, setUsers] = useState([]);
+
     useEffect(() =>{
         const fetchProfile = async () => {
 
