@@ -4,6 +4,7 @@ import Profile from "../Common/Profil";
 import NavMedecin from "./NavMedecin";
 import ListRdvMedecin from "./ListRdvMedecin";
 import FiltreRdvMedecin from "./FiltreRdvMedecin";
+import "../../css/MedecinDashboard.css"
 
 export default function MedecinDashboard({ userId }){
     const urlProfile = "http://localhost:8080/backend/api/profile";
@@ -33,6 +34,7 @@ export default function MedecinDashboard({ userId }){
                 ]
                 );
 
+                sessionStorage.setItem("profile", JSON.stringify(profileRes.data));
                 setProfile(profileRes.data);
                 setRdvs(rdvsRes.data);
 
@@ -46,9 +48,8 @@ export default function MedecinDashboard({ userId }){
     }, []);
 
     return(
-        <div>
-            <NavMedecin userId={userId}/>
-            { profile ? <Profile info={profile}/> :<p>Chargement du profile</p> }
+        <div className="dashboard-container">
+            <NavMedecin userId={userId} profile={profile}/>
             {
     rdvs
         ? (

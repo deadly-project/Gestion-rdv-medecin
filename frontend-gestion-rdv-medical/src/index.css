@@ -1,0 +1,25 @@
+:root {
+  --primary-color: #2b6cb0;
+  --primary-hover: #1a4f76;
+  --bg-color: #f7fafc;
+  --card-bg: #ffffff;
+  --text-main: #2d3748;
+  --text-muted: #718096;
+  --border-color: #e2e8f0;
+  --danger-color: #e53e3e;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+}
+
+/* Conteneur principal du Dashboard */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  /* Laisse de l'espace en haut pour que la Navbar fixe ne cache pas le profil */
+  padding-top: 100px;
+}

@@ -1,0 +1,307 @@
+/* Container global */
+.dispo-page-container {
+  padding: 30px;
+  max-width: 1300px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* En-tête */
+.dispo-header {
+    margin-top: 30px;
+  margin-bottom: 25px;
+}
+.dispo-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+}
+.dispo-header p {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Grille Split Layout */
+.dispo-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 30px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .dispo-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Style de la boîte du Calendrier */
+.calendar-card-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.01), 0 10px 15px -3px rgba(15, 23, 42, 0.02);
+}
+
+/* --- Override esthétique discret pour FullCalendar --- */
+.fc {
+  --fc-border-color: #e2e8f0;
+  --fc-button-bg-color: #2b6cb0;
+  --fc-button-border-color: #2b6cb0;
+  --fc-button-hover-bg-color: #1a4f76;
+  --fc-event-bg-color: #ebf8ff;
+  --fc-event-border-color: #4299e1;
+  --fc-event-text-color: #2b6cb0;
+}
+.fc .fc-toolbar-title {
+  font-size: 1.25rem !important;
+  font-weight: 700;
+  color: #0f172a;
+  text-transform: capitalize;
+}
+.fc .fc-event {
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+.fc-daygrid-day {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.fc-daygrid-day:hover {
+  background-color: #f8fafc;
+}
+
+/* Panneau latéral droit */
+.sidebar-actions-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.01), 0 10px 15px -3px rgba(15, 23, 42, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* État vide panneau latéral */
+.empty-sidebar-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #64748b;
+}
+.clock-icon-pulse {
+  font-size: 2.5rem;
+  color: #cbd5e1;
+  margin-bottom: 15px;
+}
+
+/* Badge Date Élégante */
+.selected-date-badge {
+  background-color: #f1f5f9;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: capitalize;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+}
+
+/* Formulaire Horaires */
+.time-picker-form-box h3, 
+.daily-slots-list-section h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 14px 0;
+}
+
+.time-inputs-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 16px;
+}
+
+.input-time-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-time-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.input-time-group input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+  background-color: #f8fafc;
+  outline: none;
+}
+.input-time-group input:focus {
+  border-color: #2b6cb0;
+  background-color: #fff;
+}
+
+/* Boutons d'actions */
+.form-buttons-group {
+  display: flex;
+  gap: 10px;
+}
+.btn-action-primary {
+  flex: 1;
+  background-color: #2b6cb0;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.btn-action-primary:hover { background-color: #1a4f76; }
+.btn-action-secondary {
+  background-color: #edf2f7;
+  color: #4a5568;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Liste des Plages Horaires Verticales */
+.slots-vertical-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slot-mini-card {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slot-time-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.dot-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #107c41; /* Point indicateur vert */
+  border-radius: 50%;
+}
+
+.slot-card-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.slot-icon-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  color: #64748b;
+  transition: all 0.15s;
+}
+.slot-icon-btn.edit:hover { color: #2b6cb0; background-color: #ebf8ff; }
+.slot-icon-btn.delete:hover { color: #e53e3e; background-color: #fff5f5; }
+
+.no-slots-text {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Coloration de la date cliquée dans FullCalendar */
+.fc .fc-day-selected {
+  background-color: #ebf8ff !important; /* Fond bleu très léger */
+  border: 2px dashed #2b6cb0 !important; /* Bordure distinctive */
+  transition: all 0.15s ease-in-out;
+}
+
+/* Rendre les lignes de créneaux interactives */
+.clickable-slot {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clickable-slot:hover {
+  border-color: #2b6cb0;
+  background-color: #f0f7ff;
+  transform: translateX(3px);
+}
+
+/* Style de la carte du créneau en cours d'édition active */
+.active-editing-slot {
+  border-color: #2b6cb0 !important;
+  background-color: #eaf4ff !important;
+  box-shadow: inset 3px 0 0 0 #2b6cb0;
+}
+
+/* Bouton bascule vers le mode Création */
+.form-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.form-title-row h3 {
+  margin: 0 !important;
+}
+
+.switch-to-add-btn {
+  background: none;
+  border: none;
+  color: #2b6cb0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.15s;
+}
+
+.switch-to-add-btn:hover {
+  background-color: #edf2f7;
+  color: #1a4f76;
+}

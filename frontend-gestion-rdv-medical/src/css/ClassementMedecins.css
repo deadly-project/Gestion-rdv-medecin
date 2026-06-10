@@ -1,0 +1,238 @@
+:root {
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.04);
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --primary-color: #2b6cb0;
+}
+
+.modern-ranking-container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid #f0f4f8;
+}
+
+/* En-tête avec disposition Flex pour caler les boutons à droite */
+.ranking-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 20px;
+}
+
+.ranking-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0 0 5px 0;
+}
+
+.ranking-header p {
+  font-size: 0.85rem;
+  color: #718096;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Zone des boutons de navigation */
+.ranking-navigation {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  font-size: 0.85rem;
+}
+
+/* Effets au survol des flèches actives */
+.nav-btn:hover:not(:disabled) {
+  background-color: #f7fafc;
+  color: var(--primary-color);
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+/* Style des flèches lorsqu'elles sont désactivées */
+.nav-btn:disabled {
+  background-color: #f8fafc;
+  color: #cbd5e1;
+  border-color: #edf2f7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Conteneur de la liste */
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Ligne de classement (Chaque médecin) */
+.ranking-row {
+  display: grid;
+  grid-template-columns: 50px 2.5fr 1.5fr 1.5fr 1fr;
+  align-items: center;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid #f0f4f8;
+  border-radius: 14px;
+  transition: var(--transition-smooth);
+  animation: fadeInRow 0.35s ease-in-out; /* Légère animation au changement de page */
+}
+
+.ranking-row:hover {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* Badges de podium (Or, Argent, Bronze) et rangs suivants */
+.rank-badge {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: #f7fafc;
+  color: #718096;
+}
+
+.rank-1 { background: #fef3c7; color: #d97706; font-size: 1rem; }
+.rank-2 { background: #e2e8f0; color: #475569; font-size: 1rem; }
+.rank-3 { background: #ffedd5; color: #ea580c; font-size: 1rem; }
+
+/* Infos principales & Avatar */
+.med-main-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.med-avatar {
+  width: 42px;
+  height: 42px;
+  background: #edf2f7;
+  color: #4a5568;
+  font-weight: 600;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.med-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 2px 0;
+}
+
+.med-specialty {
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+/* Localisation */
+.med-location {
+  font-size: 0.9rem;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+}
+
+/* Prix (Ariary) */
+.med-pricing {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-tag {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.price-label {
+  font-size: 0.75rem;
+  color: #a0aec0;
+}
+
+/* Statistiques de consultation */
+.med-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.stats-number {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #047481;
+  background: #e6fffa;
+  padding: 4px 12px;
+  border-radius: 8px;
+}
+
+.stats-label {
+  font-size: 0.75rem;
+  color: #718096;
+  margin-top: 4px;
+}
+
+/* Utilitaires pour les icônes */
+.icon-inline {
+  margin-right: 6px;
+  opacity: 0.7;
+}
+
+/* Animation au changement de page */
+@keyframes fadeInRow {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+  .ranking-header-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .ranking-navigation {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .ranking-row {
+    grid-template-columns: 40px 1fr;
+    gap: 15px;
+  }
+  .med-location, .med-pricing {
+    display: none;
+  }
+}

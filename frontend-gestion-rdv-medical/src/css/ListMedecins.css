@@ -1,0 +1,257 @@
+/* Container et architecture globale */
+.admin-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.view-section {
+  margin-top: 30px;
+}
+
+/* En-tête de page */
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.view-header h2 {
+  color: #0f172a;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+}
+
+.view-subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.medecins-count-badge {
+  background: #ebf8ff;
+  color: #2b6cb0;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid rgba(43, 108, 176, 0.1);
+}
+
+/* Grille Responsive */
+.medecins-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 25px;
+}
+
+/* La carte profil unitaire */
+.medecin-profile-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.01), 0 10px 15px -3px rgba(15, 23, 42, 0.03);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.medecin-profile-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.06), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+  border-color: #cbd5e1;
+}
+
+/* Ligne supérieure pour le statut */
+.card-top-status-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 14px;
+}
+
+/* Badges de Statut (Vert plus prononcé / vibrant) */
+.card-status-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.status-active { background-color: #dcfee5; color: #107c41; } /* Vert renforcé */
+.status-pending { background-color: #fef3c7; color: #d97706; }
+.status-banned { background-color: #fee2e2; color: #b91c1c; }
+.status-default {background-color: #dcfce7; color: #15803d;  }
+
+/* Alignement Haut (Avatar + Infos de base) */
+.profile-card-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+/* Avatar stylisé minimal */
+.avatar-placeholder {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #2b6cb0, #4299e1);
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(43, 108, 176, 0.15);
+}
+
+.profile-main-meta h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.profile-username {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* Tag de spécialité */
+.profile-specialite {
+  margin-bottom: 18px;
+}
+
+.spec-tag {
+  background: #f1f5f9;
+  color: #334155;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Section Données / Détails */
+.profile-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 16px;
+  margin-bottom: 20px;
+}
+
+/* Structure en bloc pour l'email complet */
+.detail-block-email {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 4px;
+}
+
+.detail-value-email {
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 0.9rem;
+  word-break: break-all; /* Découpe l'email proprement si extrêmement long */
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+}
+
+.detail-label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.detail-value {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* Mise en valeur du tarif */
+.highlight-row {
+  background: #f8fafc;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-top: 2px;
+}
+
+.detail-value.price {
+  color: #2b6cb0;
+  font-weight: 700;
+}
+
+/* Boutons d'actions */
+.profile-card-actions {
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 16px;
+}
+
+.action-card-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edit-btn {
+  background-color: #edf2f7;
+  color: #2b6cb0;
+}
+
+.edit-btn:hover {
+  background-color: #ebf8ff;
+}
+
+.delete-btn {
+  background-color: #fff5f5;
+  color: #e53e3e;
+}
+
+.delete-btn:hover {
+  background-color: #fed7d7;
+}
+
+/* État vide */
+.empty-state-box {
+  text-align: center;
+  padding: 60px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 20px;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* Couleur de l'avatar personnalisée pour différencier le patient */
+.avatar-placeholder.patient-avatar-color {
+  background: linear-gradient(135deg, #10b981, #059669); /* Dégradé vert émeraude pour les patients */
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15);
+}
+
+/* Tag spécifique au dossier patient */
+.spec-tag.patient-tag {
+  background: #e6fffa;
+  color: #047481;
+}

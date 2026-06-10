@@ -1,0 +1,314 @@
+/* Arrière-plan complet de la page d'inscription */
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(43, 108, 176, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(66, 153, 225, 0.03) 0px, transparent 50%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* Carte d'inscription */
+.register-card {
+  background: #ffffff;
+  padding: 45px 40px;
+  border-radius: 24px;
+  box-shadow: 
+    0 0 0 1px rgba(15, 23, 42, 0.03),
+    0 20px 40px -15px rgba(15, 23, 42, 0.05);
+  width: 100%;
+  max-width: 560px;
+  box-sizing: border-box;
+}
+
+/* Bouton de retour épuré */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  transition: all 0.2s ease;
+}
+
+.back-link:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Titre */
+.register-title {
+  margin: 0 0 30px 0;
+  color: #0f172a;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* Layout en grille */
+.register-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Groupes de champs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  color: #334155;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.form-group input, .role-select {
+  padding: 13px 16px;
+  font-size: 0.95rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #0f172a;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.form-group input:focus, .role-select:focus {
+  outline: none;
+  border-color: #2b6cb0;
+  box-shadow: 0 0 0 4px rgba(43, 108, 176, 0.08);
+}
+
+/* Custom Select moderne */
+.role-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 14px;
+  padding-right: 40px;
+}
+
+/* Container de la zone dynamique style "Bento Box" */
+.dynamic-section {
+  margin: 10px 0 25px 0;
+}
+
+.dynamic-box {
+  background-color: #f8fafc;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.dynamic-box h3 {
+  margin: 0 0 16px 0;
+  font-size: 0.9rem;
+  color: #2b6cb0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Wrapper pour les mots de passe */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  padding-right: 80px;
+}
+
+/* Petit badge "Voir" imbriqué */
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  background: #f1f5f9;
+  border: none;
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.toggle-password:hover {
+  background: #edf2f7;
+  color: #2b6cb0;
+}
+
+/* Disponibilité username */
+.username-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.status-available { color: #16a34a; }
+.status-taken { color: #dc2626; }
+
+/* Bouton Enregistrer Principal */
+.register-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #2b6cb0;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(43, 108, 176, 0.15);
+  margin-top: 15px;
+}
+
+.register-btn:hover {
+  background-color: #1a4f76;
+  box-shadow: 0 6px 20px rgba(43, 108, 176, 0.2);
+  transform: translateY(-1px);
+}
+
+.register-btn:active {
+  transform: translateY(1px);
+}
+
+/* Alertes d'erreurs globales */
+.register-alert {
+  margin-top: 20px;
+  padding: 14px;
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  color: #991b1b;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Responsive Grid */
+@media (max-width: 540px) {
+  .register-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+/* Erreur classique sous le bouton */
+.register-alert-error {
+  margin-top: 20px;
+  padding: 14px;
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  color: #991b1b;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* L'arrière-plan semi-transparent qui bloque l'écran */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.4); /* Flou sombre */
+  backdrop-filter: blur(4px); /* Effet verre dépoli en fond */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* La boîte de dialogue Modale */
+.modal-box {
+  background: #ffffff;
+  padding: 35px 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); /* Effet rebond UX */
+}
+
+/* Rond vert avec le symbole Check */
+.modal-icon {
+  width: 56px;
+  height: 56px;
+  background-color: #dcfce7;
+  color: #15803d;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px auto;
+}
+
+.modal-title {
+  margin: 0 0 8px 0;
+  color: #0f172a;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.modal-text {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+/* Bouton OK Premium */
+.modal-btn {
+  background-color: #2b6cb0; /* Ton bleu */
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.15s ease;
+  box-shadow: 0 4px 12px rgba(43, 108, 176, 0.15);
+}
+
+.modal-btn:hover {
+  background-color: #1a4f76;
+}
+
+/* Animations CSS */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}

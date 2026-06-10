@@ -36,7 +36,7 @@ export default function AdminDashboard({ userId }){
                 );
 
 
-
+                sessionStorage.setItem("profile", JSON.stringify(profileRes.data));
                 setProfile(profileRes.data);
                 setTopMeds(topRes.data);
             } catch(err) {
@@ -48,9 +48,8 @@ export default function AdminDashboard({ userId }){
         fetchProfile();
     }, []);
     return(
-        <div>
-            <NavAdmin userId={userId} />
-            { profile ? <Profile info={profile}/> :<p>Chargement du profile</p> }
+        <div className="dashboard-container">
+            <NavAdmin userId={userId} profile={profile}/>
             {/* { users.length > 0 ? <ListUsers Users={users}/> :<p>Chargement des utilisateur</p> } */}
             { TopMeds ? <ClassementMedecin TopMeds={TopMeds}/>:<p>Aucun medecin</p>}
         </div>

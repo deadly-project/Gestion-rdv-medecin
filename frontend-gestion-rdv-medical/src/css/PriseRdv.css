@@ -1,0 +1,89 @@
+.booking-page-container {
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: system-ui, sans-serif;
+}
+
+.booking-back-nav { margin-bottom: 20px; }
+.back-link-btn { text-decoration: none; color: #64748b; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.back-link-btn:hover { color: #10b981; }
+
+.booking-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 30px;
+  margin-top: 25px;
+}
+
+@media (max-width: 900px) {
+  .booking-layout-grid { grid-template-columns: 1fr; }
+}
+
+.booking-calendar-card, .booking-actions-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+/* Thème vert patient pour FullCalendar */
+.booking-calendar-card .fc {
+  --fc-button-bg-color: #10b981;
+  --fc-button-border-color: #10b981;
+  --fc-button-hover-bg-color: #059669;
+  --fc-event-bg-color: #e6fffa;
+  --fc-event-border-color: #10b981;
+  --fc-event-text-color: #047481;
+}
+
+.booking-calendar-card .fc-day-selected {
+  background-color: #f0fdf4 !important;
+  border: 2px dashed #10b981 !important;
+}
+
+/* Grille de créneaux à droite */
+.rdv-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.rdv-slot-btn {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.rdv-slot-btn:hover { border-color: #10b981; background: #f0fdf4; }
+.rdv-slot-btn.active-slot { background: #10b981; color: white; border-color: #10b981; }
+
+.rdv-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.confirm-booking-btn {
+  width: 100%;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.confirm-booking-btn:hover { background: #059669; }
+.no-slots-alert { color: #b45309; background: #fffbeb; padding: 12px; border-radius: 8px; text-align: center; }
